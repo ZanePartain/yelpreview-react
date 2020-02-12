@@ -12,8 +12,8 @@ class Yelp extends Component{
             selectedState: 'AK',
             selectedCity: null,
             states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
-            cities: ['Redmond', 'Seattle', 'Olympia'],
-            bizQuery: {},
+            cities: {},
+            bizQuery: [],
         }
     }
 
@@ -43,8 +43,17 @@ class Yelp extends Component{
             return response.json();
         })
         .then( myJSON => {
-            console.log(myJSON)
-            this.setState({bizQuery: [...myJSON]})
+            this.setState({bizQuery: [...myJSON]}, () => {
+                var citiesArray = {}
+                for (let i = 0; i < this.state.bizQuery.length; i++){
+                    Object.keys(this.state.bizQuery[i]).forEach((key) => {
+                        if (key === "city"){
+                            citiesArray[this.state.bizQuery[i][key]] = i;
+                        }
+                    })
+                }
+                this.setState({cities: citiesArray});
+            })
         })
         .catch(err => {
             console.log(err);
@@ -53,6 +62,7 @@ class Yelp extends Component{
     
 
     render(){
+        
         return(
             <div style={{
                 width: '500px', 
@@ -63,6 +73,9 @@ class Yelp extends Component{
             }}>
                 {JSON.stringify(this.state.selectedCity)}
                 {JSON.stringify(this.state.selectedState)}
+                {/* {JSON.stringify(this.state.bizQuery)} */}
+                {JSON.stringify(this.state.cities)}
+
 
                 <div style={{backgroundColor: 'blue', padding: 10}}>
                     <Form>
@@ -78,7 +91,7 @@ class Yelp extends Component{
                         <FormGroup>
                             <Label for="stateSelect">City</Label>
                             <div style={{height: '100px', width: '100%', overflow: 'scroll', backgroundColor:'lightgreen'}}>
-                                {this.state.cities.map((item) => {
+                                {/* {this.state.cities.map((item) => {
                                     return (
                                         <button style={{
                                             height: '30px',
@@ -95,7 +108,7 @@ class Yelp extends Component{
                                             {item}
                                         </button>
                                     )
-                                })}
+                                })} */}
                             </div>
                         </FormGroup>
                     </Form>
