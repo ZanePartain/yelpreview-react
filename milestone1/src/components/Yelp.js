@@ -9,21 +9,18 @@ class Yelp extends Component{
         super(props);
         this.state = {
             selectedState: 'AK',
-            selectedCity: 'AK',
+            selectedCity: null,
             states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
             cities: ['Redmond', 'Seattle', 'Olympia']
         }
     }
 
-    handleStateSelect = (e) => {
+    handleSelect = (e) => {
         e.preventDefault();
-        this.setState({ selectedState: e.target.value });
+        console.log(e.target.name);
+        this.setState({ [e.target.name]: e.target.value });
     }
     
-    handleCitiesSelect = (e) => {
-        e.preventDefault();
-        this.setState({ selectedCity: e.target.id });
-    }
 
     render(){
         return(
@@ -34,13 +31,16 @@ class Yelp extends Component{
                 color: 'black',
                 padding: 5,
             }}>
+                {JSON.stringify(this.state.selectedCity)}
+                {JSON.stringify(this.state.selectedState)}
+
                 <div style={{backgroundColor: 'blue', padding: 10}}>
                     <Form>
                         <FormGroup>
                             <Label for="stateSelect">Select</Label>
-                            <Input type="select" name="select" id="exampleSelect" onChange={this.handleStateSelect.bind(this)}>
+                            <Input type="select" name="selectedState" id="exampleSelect" onChange={this.handleSelect.bind(this)}>
                                 {this.state.states.map((item, key) => {
-                                    return <option key={key} value={item} >{item}</option>
+                                    return <option key={key} value={item} id={item}>{item}</option>
                                 })}
                             </Input>
                         
@@ -50,19 +50,20 @@ class Yelp extends Component{
                             <div style={{height: '100px', width: '100%', overflow: 'scroll', backgroundColor:'lightgreen'}}>
                                 {this.state.cities.map((item) => {
                                     return (
-                                        <div style={{
+                                        <button style={{
                                             height: '30px',
                                             width: '100%',
                                             backgroundColor: 'whitesmoke',
                                             border: '1px solid black',
                                             fontSize: '18px',
                                             textAlign: 'left',
-                                        }} 
-                                        id={item}
-                                        onClick={this.handleCitiesSelect.bind(this)}
+                                        }}
+                                        name="selectedCity"
+                                        value={item}
+                                        onClick={this.handleSelect.bind(this)}
                                         >
                                             {item}
-                                        </div>
+                                        </button>
                                     )
                                 })}
                             </div>
