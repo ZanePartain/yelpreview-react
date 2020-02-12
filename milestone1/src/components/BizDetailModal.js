@@ -1,5 +1,5 @@
 import React, { useState, Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Container, Label, Row, Col } from 'reactstrap';
 
 class ModalExample extends Component {
     constructor(props){
@@ -18,12 +18,56 @@ class ModalExample extends Component {
         <div>
             {console.log(this.props.modal)}
             <Modal isOpen={this.props.modal} toggle={this.toggle.bind(this)}>
-                <ModalHeader >Modal title</ModalHeader>
+                <ModalHeader >{this.props.details.name} Details</ModalHeader>
                 <ModalBody>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    <Container>
+                        <Row>
+                            <Col>
+                                <Label style={{fontWeight: 'bold'}}> Business Name </Label>
+                            </Col>
+                            <Col>
+                                {this.props.details.name}
+                            </Col>
+                            
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Label  style={{fontWeight: 'bold'}}> State </Label>
+                            </Col>
+                            <Col>
+                                {this.props.details.state}
+                            </Col>
+                            
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Label  style={{fontWeight: 'bold'}}> City </Label>
+                            </Col>
+                            <Col>
+                                {this.props.details.city}
+                            </Col>
+                        </Row>
+                            <br />
+                        <Row>
+                            <Col>
+                                <Label style={{fontWeight: 'bold'}}> Number of business in the same state: </Label>
+                            </Col>
+                            <Col>
+                                {this.props.biz_count.numSameState}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Label style={{fontWeight: 'bold'}}> Number of business in the same city: </Label>
+                            </Col>
+                            <Col>
+                                {this.props.biz_count.numSameCity}
+                            </Col>
+                        </Row>
+                    </Container>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={this.toggle.bind(this)}>Cancel</Button>
+                    <Button color="danger" onClick={this.toggle.bind(this)}>Cancel</Button>
                 </ModalFooter>
             </Modal>
         </div>

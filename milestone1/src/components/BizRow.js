@@ -7,18 +7,11 @@ class BizRow extends Component{
         this.state = {
             isSelected: false,
             biz: {},
+            biz_count: {},
             modal: false,
         }
     }
 
-    componentDidMount(){
-        this.setState({biz: this.props.val});
-    }
-
-    handleUpdate(){
-        this.setState({biz: this.props.val});
-
-    }
     // fetch the indivdual business data based on the business ID.
     handleBizClickFetch = (e) => {
         if(this.props.val["id"]){
@@ -31,7 +24,7 @@ class BizRow extends Component{
                 return response.json();
             })
             .then( myJSON => {
-                console.log(myJSON);
+                this.setState({biz_count: myJSON})
             })
             .catch(err => {
                 console.log(err);
@@ -59,7 +52,7 @@ class BizRow extends Component{
                 </td>
 
                 {/** Modal view for business detail */}
-                {this.state.modal ?  <ModalExample modal={this.state.modal} setModal={this.setModal.bind(this)}/> : ''}
+                {this.state.modal ?  <ModalExample modal={this.state.modal} setModal={this.setModal.bind(this)} details={this.props.val} biz_count={this.state.biz_count}/> : ''}
             </tr>
         )
     }
