@@ -3,6 +3,15 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import axios from 'axios';
 import BizRow from './BizRow';
 
+
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
 class Table extends Component{
     constructor(props){
         super(props);
@@ -46,7 +55,11 @@ class Table extends Component{
                         </tr>
                         
                         {/** loop over all biz objects */}
-                        {this.props.data.map((val, key) => {
+                        {this.props.isLoading 
+                            ? '...Loading'
+                            : (this.props.data.length == 0) 
+                                ? 'No Businesses Found'
+                                : this.props.data.map((val, key) => {
                             /** iterate over all keys in biz object */
                             // console.log(val);
                             return(

@@ -21,6 +21,7 @@ class Yelp extends Component{
             states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
             cities: {},
             bizQuery: [],
+            isLoading: false,
         }
     }
 
@@ -39,6 +40,7 @@ class Yelp extends Component{
     }
 
     handleFetchRequest() {
+        this.setState({ isLoading: true });
         let url = 'http://localhost:3000/business';
         if (this.state.selectedCity !== null)
         {
@@ -72,6 +74,8 @@ class Yelp extends Component{
                 }
                 console.log(this.state.bizQuery);
             })
+
+            this.setState({ isLoading: false });
         })
         .catch(err => {
             console.log(err);
@@ -111,33 +115,37 @@ class Yelp extends Component{
                         <FormGroup>
                             <Label for="stateSelect">City</Label>
                             <div style={{height: '100px', width: '100%', overflow: 'scroll', backgroundColor:'eggshell', border: '1px solid black', borderRadius: 10}}>
-                                {Object.keys(this.state.cities).map( key => 
-                                        <button style={{
-                                            height: '30px',
-                                            width: '100%',
-                                            backgroundColor: 'whitesmoke',
-                                            borderTop: 'none',
-                                            borderBottom: '1px solid black',
-                                            fontSize: '18px',
-                                            textAlign: 'left',
-                                            margin: 'none',
-                                            padding: 'none',
-                                        }}
-                                        name="selectedCity"
-                                        value={key}
-                                        onClick={this.handleSelect.bind(this)}
-                                        >
-                                            {key}
-                                        </button>
+                                {this.state.isLoading 
+                                    ? '...Loading' 
+                                    : isEmpty(this.state.cities) 
+                                        ? 'No Cities Found'
+                                        : Object.keys(this.state.cities).map( key => 
+                                            <button style={{
+                                                height: '30px',
+                                                width: '100%',
+                                                backgroundColor: 'whitesmoke',
+                                                borderTop: 'none',
+                                                borderBottom: '1px solid black',
+                                                fontSize: '18px',
+                                                textAlign: 'left',
+                                                margin: 'none',
+                                                padding: 'none',
+                                            }}
+                                            name="selectedCity"
+                                            value={key}
+                                            onClick={this.handleSelect.bind(this)}
+                                            >
+                                                {key}
+                                            </button>
                                     //<div style={{ height: '30px', width: '100%',color: 'black'}}>{key} {console.log(key)}</div>
                                     
-                                )}
+                                        )}
                             </div>
                         </FormGroup>
                     </Form>
                 </div>
 
-                <Table data={this.state.bizQuery}/>
+                <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
             </div>
         );
     }
