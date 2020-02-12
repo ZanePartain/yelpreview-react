@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Filters from './Filters';
 import Table from './Table';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import axios from 'axios';
 
 
 class Yelp extends Component{
@@ -11,17 +12,22 @@ class Yelp extends Component{
             selectedState: 'AK',
             selectedCity: null,
             states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
-            cities: ['Redmond', 'Seattle', 'Olympia']
+            cities: ['Redmond', 'Seattle', 'Olympia'],
+            bizQuery: {},
         }
     }
 
-    handleSelect = (e) => {
-        e.preventDefault();
-        console.log(e.target.name);
-        this.setState({ [e.target.name]: e.target.value });
 
-        let url = 'http://localhost:3000/business?';
-        if (this.state.cities != null)
+    handleSelect = (e) => {
+        console.log(e.target.name);
+        this.setState({ [e.target.name]: e.target.value }, () =>{
+            this.handleAxiosRequest();
+        });
+    }
+
+    handleAxiosRequest() {
+        let url = 'http://localhost:3000/business';
+        if (this.state.selectedCity !== null)
         {
             url += '?state=' + this.state.selectedState + '&city=' + this.state.selectedCity;
         }
@@ -29,6 +35,20 @@ class Yelp extends Component{
         {
             url += '?state=' + this.state.selectedState;
         }
+
+        fetch(url, {
+            method: "GET",
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then( myJSON => {
+            console.log(myJSON)
+            this.setState({bizQuery: [...myJSON]})
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
     
 
@@ -81,7 +101,7 @@ class Yelp extends Component{
                     </Form>
                 </div>
 
-                <Table />
+                <Table data={this.state.bizQuery}/>
             </div>
         );
     }
