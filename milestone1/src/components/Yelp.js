@@ -19,6 +19,16 @@ class Yelp extends Component{
         e.preventDefault();
         console.log(e.target.name);
         this.setState({ [e.target.name]: e.target.value });
+
+        let url = 'http://localhost:3000/business?';
+        if (this.state.cities != null)
+        {
+            url += '?state=' + this.state.selectedState + '&city=' + this.state.selectedCity;
+        }
+        else 
+        {
+            url += '?state=' + this.state.selectedState;
+        }
     }
     
 
