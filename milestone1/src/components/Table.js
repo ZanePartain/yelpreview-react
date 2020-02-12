@@ -16,6 +16,8 @@ class Table extends Component{
         this.props.toggleBool(e);
     }
 
+    
+
     render(){
         return(
             <div style={{
@@ -25,14 +27,48 @@ class Table extends Component{
                 color: 'black',
                 overflow: 'scroll',
             }}>
-                 <ListGroup>
-                    <ListGroupItem color="info">Cras justo odio</ListGroupItem>
-                    <ListGroupItem color="info">Dapibus ac facilisis in</ListGroupItem>
-                    <ListGroupItem color="info">Morbi leo risus</ListGroupItem>
-                    <ListGroupItem color="info">Porta ac consectetur ac</ListGroupItem>
-                </ListGroup>
+                <table style={{width:'100%'}}>
+                    <tr>
+                        <th>
+                            Business Name
+                        </th>
+                        <th>
+                            state
+                        </th>
+                        <th>
+                            city
+                        </th>
+                    </tr>
+                    
+                        {/** loop over all biz objects */}
+                        {this.props.data.map((val, key) => {
+                            /** iterate over all keys in biz object */
+                            return(
+                                <tr key={key}>
+                                    <td>
+                                        {val["name"]}
+                                    </td>
+                                    <td>
+                                        {val["state"]}
+                                    </td>
+                                    <td>
+                                        {val["city"]}
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                </table>
             </div>
         );
+                // <ListGroup>
+                //     {/** loop over all biz objects */}
+                //     {this.props.data.map((val, key) => {
+                //         /** iterate over all keys in biz object */
+                //         Object.keys(val).map((key, index) => {
+                //            return <ListGroupItem key={index} color="info">{key}</ListGroupItem>
+                //         })
+                //     })}
+                // </ListGroup>
     }
 
 }

@@ -20,9 +20,13 @@ class Yelp extends Component{
 
     handleSelect = (e) => {
         console.log(e.target.name);
+        if (e.target.name === "selectedState"){
+            this.setState({ selectedCity: null });
+        }
         this.setState({ [e.target.name]: e.target.value }, () =>{
             this.handleAxiosRequest();
         });
+
     }
 
     handleAxiosRequest() {
@@ -71,10 +75,10 @@ class Yelp extends Component{
                 color: 'black',
                 padding: 5,
             }}>
-                {JSON.stringify(this.state.selectedCity)}
-                {JSON.stringify(this.state.selectedState)}
+                {/* {JSON.stringify(this.state.selectedCity)} */}
+                {/* {JSON.stringify(this.state.selectedState)} */}
                 {/* {JSON.stringify(this.state.bizQuery)} */}
-                {JSON.stringify(this.state.cities)}
+                {/* {JSON.stringify(this.state.cities)} */}
 
 
                 <div style={{backgroundColor: 'blue', padding: 10}}>
@@ -90,9 +94,8 @@ class Yelp extends Component{
                         </FormGroup>
                         <FormGroup>
                             <Label for="stateSelect">City</Label>
-                            <div style={{height: '100px', width: '100%', overflow: 'scroll', backgroundColor:'lightgreen'}}>
-                                {/* {this.state.cities.map((item) => {
-                                    return (
+                            <div style={{height: '150px', width: '100%', overflow: 'scroll', backgroundColor:'lightgreen'}}>
+                                {Object.keys(this.state.cities).map( key => 
                                         <button style={{
                                             height: '30px',
                                             width: '100%',
@@ -102,13 +105,14 @@ class Yelp extends Component{
                                             textAlign: 'left',
                                         }}
                                         name="selectedCity"
-                                        value={item}
+                                        value={key}
                                         onClick={this.handleSelect.bind(this)}
                                         >
-                                            {item}
+                                            {key}
                                         </button>
-                                    )
-                                })} */}
+                                    //<div style={{ height: '30px', width: '100%',color: 'black'}}>{key} {console.log(key)}</div>
+                                    
+                                )}
                             </div>
                         </FormGroup>
                     </Form>
