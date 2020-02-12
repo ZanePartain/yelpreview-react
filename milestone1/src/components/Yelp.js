@@ -83,9 +83,11 @@ class Yelp extends Component{
         
         return(
             <div style={{
-                width: '500px', 
-                minHeight: 'fit-content',
+                width: '600px', 
+                height: '600px',
                 backgroundColor: 'whitesmoke', 
+                border: '1px solid transparent',
+                borderRadius: 10,
                 color: 'black',
                 padding: 5,
             }}>
@@ -95,7 +97,7 @@ class Yelp extends Component{
                 {/* {JSON.stringify(this.state.cities)} */}
 
 
-                <div style={{backgroundColor: 'blue', padding: 10}}>
+                <div style={{backgroundColor: 'eggshell', padding: 10}}>
                     <Form>
                         <FormGroup>
                             <Label for="stateSelect">Select</Label>
@@ -108,15 +110,18 @@ class Yelp extends Component{
                         </FormGroup>
                         <FormGroup>
                             <Label for="stateSelect">City</Label>
-                            <div style={{height: '150px', width: '100%', overflow: 'scroll', backgroundColor:'lightgreen'}}>
+                            <div style={{height: '100px', width: '100%', overflow: 'scroll', backgroundColor:'eggshell', border: '1px solid black', borderRadius: 10}}>
                                 {Object.keys(this.state.cities).map( key => 
                                         <button style={{
                                             height: '30px',
                                             width: '100%',
                                             backgroundColor: 'whitesmoke',
-                                            border: '1px solid black',
+                                            borderTop: 'none',
+                                            borderBottom: '1px solid black',
                                             fontSize: '18px',
                                             textAlign: 'left',
+                                            margin: 'none',
+                                            padding: 'none',
                                         }}
                                         name="selectedCity"
                                         value={key}

@@ -16,7 +16,6 @@ class ModalExample extends Component {
     render(){
         return (
         <div>
-            {console.log(this.props.modal)}
             <Modal isOpen={this.props.modal} toggle={this.toggle.bind(this)}>
                 <ModalHeader >{this.props.details.name} Details</ModalHeader>
                 <ModalBody>

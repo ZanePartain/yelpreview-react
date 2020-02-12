@@ -23,11 +23,6 @@ class App extends Component {
       <div className="App" style={{color: 'black'}}>
         <header className="App-header">
           <Yelp isTrue={this.state.isTrue} toggleBool={this.toggleIsTrue.bind(this)}/>
-
-          <Button onClick={this.toggleIsTrue.bind(this)}>
-            change is True
-          </Button>
-          
         </header>
       </div>
     );
