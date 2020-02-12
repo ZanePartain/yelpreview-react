@@ -4,6 +4,13 @@ import Table from './Table';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import axios from 'axios';
 
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
 
 class Yelp extends Component{
     constructor(props){
@@ -19,17 +26,18 @@ class Yelp extends Component{
 
 
     handleSelect = (e) => {
+        e.preventDefault();
         console.log(e.target.name);
         if (e.target.name === "selectedState"){
-            this.setState({ selectedCity: null });
+            this.setState({ selectedCity: null, cities: {} });
         }
         this.setState({ [e.target.name]: e.target.value }, () =>{
-            this.handleAxiosRequest();
+            this.handleFetchRequest();
         });
 
     }
 
-    handleAxiosRequest() {
+    handleFetchRequest() {
         let url = 'http://localhost:3000/business';
         if (this.state.selectedCity !== null)
         {
@@ -48,15 +56,17 @@ class Yelp extends Component{
         })
         .then( myJSON => {
             this.setState({bizQuery: [...myJSON]}, () => {
-                var citiesArray = {}
-                for (let i = 0; i < this.state.bizQuery.length; i++){
-                    Object.keys(this.state.bizQuery[i]).forEach((key) => {
-                        if (key === "city"){
-                            citiesArray[this.state.bizQuery[i][key]] = i;
-                        }
-                    })
+                if (isEmpty(this.state.cities)){
+                    var citiesArray = {}
+                    for (let i = 0; i < this.state.bizQuery.length; i++){
+                        Object.keys(this.state.bizQuery[i]).forEach((key) => {
+                            if (key === "city"){
+                                citiesArray[this.state.bizQuery[i][key]] = i;
+                            }
+                        })
+                    }
+                    this.setState({cities: citiesArray});
                 }
-                this.setState({cities: citiesArray});
             })
         })
         .catch(err => {
