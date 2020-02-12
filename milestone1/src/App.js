@@ -2,6 +2,7 @@ import React, { Component }from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Yelp  from './components/Yelp';
+import { Button } from 'reactstrap';
 
 class App extends Component {
   constructor(props){
@@ -20,25 +21,11 @@ class App extends Component {
   render(){
     return (
       <div className="App" style={{color: 'black'}}>
-
-        <Yelp isTrue={this.state.isTrue} toggleBool={this.toggleIsTrue.bind(this)}/>
-        <button onClick={this.toggleIsTrue.bind(this)}>
-          change is True
-        </button>
-
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <Yelp isTrue={this.state.isTrue} toggleBool={this.toggleIsTrue.bind(this)}/>
+          <Button onClick={this.toggleIsTrue.bind(this)}>
+            change is True
+          </Button>
         </header>
       </div>
     );

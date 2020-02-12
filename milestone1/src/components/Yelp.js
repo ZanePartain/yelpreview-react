@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Filters from './Filters';
 
 class Yelp extends Component{
     constructor(props){
@@ -16,11 +17,13 @@ class Yelp extends Component{
 
     render(){
         return(
-            <div style={{width: '500px', height: '100px', backgroundColor: this.state.color, color: 'black'}}>
-                <button onClick={this.handleChangeColor.bind(this)}>
-                    Change Color
-                </button>
-                {JSON.stringify(this.props.isTrue)}
+            <div style={{
+                width: '500px', 
+                height: '600px',
+                backgroundColor: 'whitesmoke', 
+                color: 'black',
+            }}>
+                <Filters />
             </div>
         );
     }
