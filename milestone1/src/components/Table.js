@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import axios from 'axios';
+import BizRow from './BizRow';
 
 class Table extends Component{
     constructor(props){
         super(props);
         this.state = {
             color: "red",
+            data: []
         }
+    }
+
+    componentDidMount(){
+        console.log(this.state.data)
+        this.setState({ data: this.props.data })
     }
 
     handleChangeColor = (e) => {
@@ -16,10 +23,15 @@ class Table extends Component{
         this.props.toggleBool(e);
     }
 
+    handleClickBiz = (e) => {
+        console.log(e.target);
+    }
+
     
 
     render(){
         return(
+            
             <div style={{
                 width: '100%', 
                 height: '325px',
@@ -27,48 +39,32 @@ class Table extends Component{
                 color: 'black',
                 overflow: 'scroll',
             }}>
+                
                 <table style={{width:'100%'}}>
-                    <tr>
-                        <th>
-                            Business Name
-                        </th>
-                        <th>
-                            state
-                        </th>
-                        <th>
-                            city
-                        </th>
-                    </tr>
-                    
+                        <tr style={{textAlign: 'left'}}>
+                            <th>
+                                Business Name
+                            </th>
+                            <th>
+                                State
+                            </th>
+                            <th>
+                                City
+                            </th>
+                        </tr>
+                        
                         {/** loop over all biz objects */}
                         {this.props.data.map((val, key) => {
                             /** iterate over all keys in biz object */
+                            // console.log(val);
                             return(
-                                <tr key={key}>
-                                    <td>
-                                        {val["name"]}
-                                    </td>
-                                    <td>
-                                        {val["state"]}
-                                    </td>
-                                    <td>
-                                        {val["city"]}
-                                    </td>
-                                </tr>
+                                <BizRow  val={val} />
+                               
                             )
                         })}
                 </table>
             </div>
         );
-                // <ListGroup>
-                //     {/** loop over all biz objects */}
-                //     {this.props.data.map((val, key) => {
-                //         /** iterate over all keys in biz object */
-                //         Object.keys(val).map((key, index) => {
-                //            return <ListGroupItem key={index} color="info">{key}</ListGroupItem>
-                //         })
-                //     })}
-                // </ListGroup>
     }
 
 }

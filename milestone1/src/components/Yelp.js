@@ -29,6 +29,7 @@ class Yelp extends Component{
         e.preventDefault();
         console.log(e.target.name);
         if (e.target.name === "selectedState"){
+            // new state was selected so repopulate the available cities
             this.setState({ selectedCity: null, cities: {} });
         }
         this.setState({ [e.target.name]: e.target.value }, () =>{
@@ -55,7 +56,9 @@ class Yelp extends Component{
             return response.json();
         })
         .then( myJSON => {
+            // unpack the arre of JSON into bizQuery
             this.setState({bizQuery: [...myJSON]}, () => {
+                // if cities is empty then populate the cities 
                 if (isEmpty(this.state.cities)){
                     var citiesArray = {}
                     for (let i = 0; i < this.state.bizQuery.length; i++){
@@ -67,6 +70,7 @@ class Yelp extends Component{
                     }
                     this.setState({cities: citiesArray});
                 }
+                console.log(this.state.bizQuery);
             })
         })
         .catch(err => {
