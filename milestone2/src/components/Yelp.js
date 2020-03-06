@@ -94,6 +94,7 @@ class Yelp extends Component{
                 borderRadius: 10,
                 color: 'black',
                 padding: 5,
+                display: 'inline-block'
             }}>
                 {/* {JSON.stringify(this.state.selectedCity)} */}
                 {/* {JSON.stringify(this.state.selectedState)} */}

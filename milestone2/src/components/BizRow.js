@@ -52,7 +52,11 @@ class BizRow extends Component{
                 </td>
 
                 {/** Modal view for business detail */}
-                {this.state.modal ?  <ModalExample modal={this.state.modal} setModal={this.setModal.bind(this)} details={this.props.val} biz_count={this.state.biz_count}/> : ''}
+                {
+                    this.state.modal 
+                        ?  <ModalExample modal={this.state.modal} setModal={this.setModal.bind(this)} details={this.props.val} biz_count={this.state.biz_count}/> 
+                        : ''
+                }
             </tr>
         )
     }
