@@ -101,7 +101,6 @@ class Yelp extends Component{
                 {/* {JSON.stringify(this.state.bizQuery)} */}
                 {/* {JSON.stringify(this.state.cities)} */}
 
-
                 <div style={{backgroundColor: 'eggshell', padding: 10}}>
                     <Form>
                         <FormGroup>
@@ -138,8 +137,7 @@ class Yelp extends Component{
                                             >
                                                 {key}
                                             </button>
-                                    //<div style={{ height: '30px', width: '100%',color: 'black'}}>{key} {console.log(key)}</div>
-                                    
+                                            //<div style={{ height: '30px', width: '100%',color: 'black'}}>{key} {console.log(key)}</div>
                                         )}
                             </div>
                         </FormGroup>
