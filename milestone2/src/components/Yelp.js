@@ -173,6 +173,9 @@ class Yelp extends Component{
                 this.businessFetchReq();
             });
         }
+        if (this.state.postalCodes == null){
+            // TODO grab DOM element postal select
+        }
         this.businessFetchReq();
     }
 
