@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Filters from "./Filters";
 import Table from "./Table";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
-import axios from "axios";
+
 
 function isEmpty(obj) {
     for(var key in obj) {
@@ -91,9 +91,9 @@ class Yelp extends Component{
         
         return(
             <div style={{
-                width: "600px", 
+                width: "600px",
                 height: "600px",
-                backgroundColor: "whitesmoke", 
+                backgroundColor: "whitesmoke",
                 border: "1px solid transparent",
                 borderRadius: 10,
                 color: "black",
@@ -120,7 +120,7 @@ class Yelp extends Component{
                             <Label for="stateSelect">City</Label>
                             <div style={{height: "100px", width: "100%", overflow: "scroll", backgroundColor:"eggshell", border: "1px solid black", borderRadius: 10}}>
                                 {this.state.isLoading 
-                                    ? "...Loading" 
+                                    ? "...Loading"
                                     : isEmpty(this.state.cities) 
                                         ? "No Cities Found"
                                         : Object.keys(this.state.cities).map( key => 
