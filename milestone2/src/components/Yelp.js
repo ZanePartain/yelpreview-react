@@ -128,16 +128,18 @@ class Yelp extends Component{
                 <Container>
                     <Row>
 
-                    <Form>
-                        <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
-                            <Label for="selectMultipleStates">Select States</Label>
-                            <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: 200}} onChange={this.handleSelect.bind(this)}>
-                                {this.state.states.map((item, key) => {
-                                    return <option key={key} value={item} id={item}>{item}</option>
-                                })}
-                            </Input>
-                        </FormGroup>
-                    </Form>
+                        {/**STATE MULTI-SELECT */}
+                        <Form>
+                            <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
+                                <Label for="selectMultipleStates">Select States</Label>
+                                <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: 200}} onChange={this.handleSelect.bind(this)}>
+                                    {this.state.states.map((item, key) => {
+                                        return <option key={key} value={item} id={item}>{item}</option>
+                                    })}
+                                </Input>
+                            </FormGroup>
+                        </Form>
+
                         <div style={{
                             width: "600px", 
                             height: "600px",
