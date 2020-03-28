@@ -237,7 +237,7 @@ class Yelp extends Component{
                                 height: "600px",
                                 backgroundColor: "whitesmoke", 
                                 border: "1px solid transparent",
-                                borderRadius: 10,
+                                borderRadius: 5,
                                 color: "black",
                                 padding: 5,
                                 display: "inline-block",

@@ -34,7 +34,7 @@ class Table extends Component{
                 color: 'black',
             }}>
                 
-                <table style={{width:'100%'}}>
+                <table style={{width:'100%', borderRadius: '100'}}>
                     <tbody>
 
                         <tr style={{textAlign: 'left'}}>
