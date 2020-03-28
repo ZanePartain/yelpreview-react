@@ -21,7 +21,7 @@ class Yelp extends Component{
             selectedState: [],
             selectedCity: null,
             states: [],
-            cities: {},
+            cities: [],
             bizQuery: [],
             isLoading: false,
         }
@@ -42,7 +42,6 @@ class Yelp extends Component{
             for (let i = 0; i < myJSON.length; i++){
                 this.setState({states: [...this.state.states, myJSON[i]["state"]]});
             }
-            // this.setState({states: [...myJSON]})
         })
         .catch( err => {
             console.log(err);
@@ -63,7 +62,7 @@ class Yelp extends Component{
                 selectedCity: null, 
                 cities: {}
             }, () => {
-                this.handleFetchRequest();
+                this.handleCityFetchRequest();
             });
             
         }
@@ -75,12 +74,16 @@ class Yelp extends Component{
 
     }
 
-    handleFetchRequest() {
+    handleBusinessFetchRequest() {
         this.setState({ isLoading: true });
         if (this.state.selectedCity !== null)
         {
             url += "?state=" + this.state.selectedState + "&city=" + this.state.selectedCity;
         }
+    }
+
+    handleCityFetchRequest() {
+        this.setState({ isLoading: true });
 
         console.log({"selected states": this.state.selectedState});
 
@@ -96,22 +99,28 @@ class Yelp extends Component{
             return response.json();
         })
         .then( myJSON => {
+            console.log(myJSON);
+            console.log(this.state.cities);
+
+            for (let i = 0; i < myJSON.length; i++){
+                this.setState({cities: [...this.state.cities, myJSON[i]["city"]]});
+            }
             // unpack the arre of JSON into bizQuery
-            this.setState({bizQuery: [...myJSON]}, () => {
-                // if cities is empty then populate the cities 
-                if (isEmpty(this.state.cities)){
-                    var citiesArray = {}
-                    for (let i = 0; i < this.state.bizQuery.length; i++){
-                        Object.keys(this.state.bizQuery[i]).forEach((key) => {
-                            if (key === "city"){
-                                citiesArray[this.state.bizQuery[i][key]] = i;
-                            }
-                        })
-                    }
-                    this.setState({cities: citiesArray});
-                }
-                console.log(this.state.bizQuery);
-            })
+            // this.setState({bizQuery: [...myJSON]}, () => {
+            //     // if cities is empty then populate the cities 
+            //     if (isEmpty(this.state.cities)){
+            //         var citiesArray = {}
+            //         for (let i = 0; i < this.state.bizQuery.length; i++){
+            //             Object.keys(this.state.bizQuery[i]).forEach((key) => {
+            //                 if (key === "city"){
+            //                     citiesArray[this.state.bizQuery[i][key]] = i;
+            //                 }
+            //             })
+            //         }
+            //         this.setState({cities: citiesArray});
+            //     }
+            //     console.log(this.state.bizQuery);
+            // })
 
             this.setState({ isLoading: false });
         })
@@ -154,6 +163,7 @@ class Yelp extends Component{
                             {/* {JSON.stringify(this.state.selectedState)} */}
                             {/* {JSON.stringify(this.state.bizQuery)} */}
                             {/* {JSON.stringify(this.state.cities)} */}
+                            {JSON.stringify(this.state.cities)}
                             
 
                             <div style={{backgroundColor: "eggshell", padding: 10}}>
@@ -166,7 +176,7 @@ class Yelp extends Component{
                                                 ? "...Loading" 
                                                 : isEmpty(this.state.cities) 
                                                     ? "No Cities Found"
-                                                    : Object.keys(this.state.cities).map( key => 
+                                                    : this.state.cities.map( (item,key) => 
                                                         <button style={{
                                                             height: "30px",
                                                             width: "100%",
@@ -179,10 +189,10 @@ class Yelp extends Component{
                                                             padding: "none",
                                                         }}
                                                         name="selectedCity"
-                                                        value={key}
+                                                        value={item}
                                                         onClick={this.handleSelect.bind(this)}
                                                         >
-                                                            {key}
+                                                            {item}
                                                         </button>
                                                         //<div style={{ height: "30px", width: "100%",color: "black"}}>{key} {console.log(key)}</div>
                                                     )}
