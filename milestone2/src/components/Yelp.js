@@ -24,6 +24,7 @@ class Yelp extends Component{
             city: [],
             postalCodes: [],
             bizQuery: [],
+            category: [],
             isLoading: false,
         }
     }
@@ -179,6 +180,26 @@ class Yelp extends Component{
         this.businessFetchReq();
     }
 
+    handleBusinessCategoryFetchReq() {
+        let newUrl = url;
+        newUrl += '/category/' + this.state.selectedPostalCode;
+        console.log('BUSINESS CATEGORY FETCH REQ', this.state.selectedPostalCode);
+        
+        fetch(newUrl, {
+            method: "GET",
+        })
+        .then( resp => {
+            return resp.json();
+        })
+        .then( myJSON => {
+            console.log(myJSON);
+            this.setState({ category: myJSON });
+        })
+        .catch(err =>{
+            console.log(err);
+        });
+    }
+
     render(){
         return(
             <div>
@@ -226,6 +247,20 @@ class Yelp extends Component{
                             </Form>
                         </Col>
                         <Col>
+                        <Row>
+                            {/** STATE MULTI-SELECT */}
+                            <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
+                                <Label for="selectMultipleStates">Select Category</Label>
+                                <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
+                                    {this.state.states.map((item, key) => {
+                                        return <option key={key} value={item} id={item}>{item}</option>
+                                    })}
+                                </Input>
+                            </FormGroup>
+
+                        </Row>
+                        </Col>
+                        <Col>
                             <div style={{
                                 width: "600px", 
                                 height: "600px",
@@ -247,6 +282,7 @@ class Yelp extends Component{
                                 <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
                             </div>
                         </Col>
+                       
                     </Row>
 
                 </Container>

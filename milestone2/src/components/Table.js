@@ -32,6 +32,8 @@ class Table extends Component{
                 height: 'auto',
                 backgroundColor: 'eggshell',
                 color: 'black',
+                display: 'block',
+                margin: 'auto',
             }}>
                 
                 <table style={{width:'100%', borderRadius: '100'}}>
