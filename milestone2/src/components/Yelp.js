@@ -21,7 +21,7 @@ class Yelp extends Component{
             selectedState: [],
             selectedCity: null,
             states: [],
-            cities: [],
+            city: [],
             bizQuery: [],
             isLoading: false,
         }
@@ -57,6 +57,8 @@ class Yelp extends Component{
             for (let i = 0; i < e.target.selectedOptions.length; i++){
                 states.push(e.target.selectedOptions[i]["value"]);
             }
+
+            // set state and fetchthe cities of the given states
             this.setState({
                 selectedState: states,
                 selectedCity: null, 
@@ -99,30 +101,16 @@ class Yelp extends Component{
             return response.json();
         })
         .then( myJSON => {
-            console.log(myJSON);
-            console.log(this.state.cities);
-
+            // unpack the cities, and set that city state
+            let cities = []
             for (let i = 0; i < myJSON.length; i++){
-                this.setState({cities: [...this.state.cities, myJSON[i]["city"]]});
+                cities.push(myJSON[i]["city"]);
             }
-            // unpack the arre of JSON into bizQuery
-            // this.setState({bizQuery: [...myJSON]}, () => {
-            //     // if cities is empty then populate the cities 
-            //     if (isEmpty(this.state.cities)){
-            //         var citiesArray = {}
-            //         for (let i = 0; i < this.state.bizQuery.length; i++){
-            //             Object.keys(this.state.bizQuery[i]).forEach((key) => {
-            //                 if (key === "city"){
-            //                     citiesArray[this.state.bizQuery[i][key]] = i;
-            //                 }
-            //             })
-            //         }
-            //         this.setState({cities: citiesArray});
-            //     }
-            //     console.log(this.state.bizQuery);
-            // })
 
-            this.setState({ isLoading: false });
+            this.setState({ 
+                city: cities,
+                isLoading: false
+             });
         })
         .catch(err => {
             console.log(err);
@@ -162,8 +150,8 @@ class Yelp extends Component{
                             {/* {JSON.stringify(this.state.selectedCity)} */}
                             {/* {JSON.stringify(this.state.selectedState)} */}
                             {/* {JSON.stringify(this.state.bizQuery)} */}
-                            {/* {JSON.stringify(this.state.cities)} */}
-                            {JSON.stringify(this.state.cities)}
+                            {/* {JSON.stringify(this.state.city)} */}
+                            {JSON.stringify(this.state.city)}
                             
 
                             <div style={{backgroundColor: "eggshell", padding: 10}}>
@@ -174,9 +162,9 @@ class Yelp extends Component{
                                         <div style={{height: "100px", width: "100%", overflow: "scroll", backgroundColor:"eggshell", border: "1px solid black", borderRadius: 10}}>
                                             {this.state.isLoading 
                                                 ? "...Loading" 
-                                                : isEmpty(this.state.cities) 
+                                                : isEmpty(this.state.city) 
                                                     ? "No Cities Found"
-                                                    : this.state.cities.map( (item,key) => 
+                                                    : this.state.city.map( (item,key) => 
                                                         <button style={{
                                                             height: "30px",
                                                             width: "100%",
