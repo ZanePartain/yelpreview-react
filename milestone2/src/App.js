@@ -25,14 +25,6 @@ class App extends Component {
         <header className="App-header">
           <Container>
             <Row>
-                <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
-                  <Label for="selectMultipleStates">Select States</Label>
-                  <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple style={{height: 200}}>
-                    {this.state.states.map((item, key) => {
-                        return <option key={key} value={item} id={item}>{item}</option>
-                    })}
-                  </Input>
-                </FormGroup>
                 <Yelp isTrue={this.state.isTrue} toggleBool={this.toggleIsTrue.bind(this)}/>
             </Row>
           </Container>
