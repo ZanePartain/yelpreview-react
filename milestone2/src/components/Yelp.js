@@ -152,6 +152,26 @@ class Yelp extends Component{
             console.log(err);
         })
     }
+
+    businessFetchReq() {
+        let newUrl = url;
+        newUrl += '/list/' + this.state.selectedPostalCode;
+        console.log('BUSINESS FETCH REQ', this.state.selectedPostalCode);
+        
+        fetch(newUrl, {
+            method: "GET",
+        })
+        .then( resp => {
+            return resp.json();
+        })
+        .then( myJSON => {
+            console.log(myJSON);
+            this.setState({ bizQuery: myJSON });
+        })
+        .catch(err =>{
+            console.log(err);
+        });
+    }
     
     handleSearchBusiness = (e) =>{
         e.preventDefault();
@@ -159,8 +179,11 @@ class Yelp extends Component{
             this.setState({selectedPostalCode: this.state.postalCodes[0]}, ()=>{
                 console.log(this.state.selectedPostalCode);
                 // TODO handle fetch for business in the area.
-            })
+                this.businessFetchReq();
+            });
         }
+
+        this.businessFetchReq();
     }
 
     render(){
