@@ -182,7 +182,6 @@ class Yelp extends Component{
                 this.businessFetchReq();
             });
         }
-
         this.businessFetchReq();
     }
 
@@ -191,65 +190,69 @@ class Yelp extends Component{
             <div>
                 <Container>
                     <Row>
-                        <Form>
-                            {/** STATE MULTI-SELECT */}
-                            <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
-                                <Label for="selectMultipleStates">Select States</Label>
-                                <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
-                                    {this.state.states.map((item, key) => {
-                                        return <option key={key} value={item} id={item}>{item}</option>
-                                    })}
-                                </Input>
-                            </FormGroup>
-                            <Container>
+                        <Col>
+                            <Form>
+                                {/** STATE MULTI-SELECT */}
+                                <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
+                                    <Label for="selectMultipleStates">Select States</Label>
+                                    <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
+                                        {this.state.states.map((item, key) => {
+                                            return <option key={key} value={item} id={item}>{item}</option>
+                                        })}
+                                    </Input>
+                                </FormGroup>
+                                <Container>
 
-                                <Row>
-                                    {/** CITY SELECT */}
-                                    <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
-                                        <Label for="selectCity">Select City</Label>
-                                        <Input placeholder="City" type="select" name="selectedCity" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectCityCode.bind(this)}>
-                                            {this.state.city.map((item, key) => {
-                                                return <option key={key} value={item} id={item}>{item}</option>
-                                            })}
-                                        </Input>
-                                    </FormGroup>
-                                </Row>
+                                    <Row>
+                                        {/** CITY SELECT */}
+                                        <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
+                                            <Label for="selectCity">Select City</Label>
+                                            <Input placeholder="City" type="select" name="selectedCity" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectCityCode.bind(this)}>
+                                                {this.state.city.map((item, key) => {
+                                                    return <option key={key} value={item} id={item}>{item}</option>
+                                                })}
+                                            </Input>
+                                        </FormGroup>
+                                    </Row>
 
-                                <Row>
-                                    {/** POSTAL CODE SELECT */}
-                                    <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
-                                        <Label for="selectPostcalCode">Select Postal Code</Label>
-                                        <Input placeholder="Postal Code" type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
-                                            {this.state.postalCodes.map((item, key) => {
-                                                return <option key={key} value={item} id={item}>{item}</option>
-                                            })}
-                                        </Input>
-                                    </FormGroup>
-                                </Row>
+                                    <Row>
+                                        {/** POSTAL CODE SELECT */}
+                                        <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
+                                            <Label for="selectPostcalCode">Select Postal Code</Label>
+                                            <Input placeholder="Postal Code" type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
+                                                {this.state.postalCodes.map((item, key) => {
+                                                    return <option key={key} value={item} id={item}>{item}</option>
+                                                })}
+                                            </Input>
+                                        </FormGroup>
+                                    </Row>
 
-                                <Button color="success" style={{width: '100%'}} onClick={this.handleSearchBusiness.bind(this)}>Search</Button>
-                            </Container>
-                        </Form>
+                                    <Button color="success" style={{width: '100%'}} onClick={this.handleSearchBusiness.bind(this)}>Search</Button>
+                                </Container>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <div style={{
+                                width: "600px", 
+                                height: "600px",
+                                backgroundColor: "whitesmoke", 
+                                border: "1px solid transparent",
+                                borderRadius: 10,
+                                color: "black",
+                                padding: 5,
+                                display: "inline-block",
+                                overflow: "scroll"
+                            }}>
 
-                        <div style={{
-                            width: "600px", 
-                            height: "600px",
-                            backgroundColor: "whitesmoke", 
-                            border: "1px solid transparent",
-                            borderRadius: 10,
-                            color: "black",
-                            padding: 5,
-                            display: "inline-block"
-                        }}>
+                                {/* {JSON.stringify(this.state.selectedCity)} */}
+                                {/* {JSON.stringify(this.state.selectedState)} */}
+                                {/* {JSON.stringify(this.state.bizQuery)} */}
+                                {/* {JSON.stringify(this.state.city)} */}
+                                {/* {JSON.stringify(this.state.postalCodes)} */}
 
-                            {/* {JSON.stringify(this.state.selectedCity)} */}
-                            {/* {JSON.stringify(this.state.selectedState)} */}
-                            {/* {JSON.stringify(this.state.bizQuery)} */}
-                            {/* {JSON.stringify(this.state.city)} */}
-                            {/* {JSON.stringify(this.state.postalCodes)} */}
-
-                            <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
-                        </div>
+                                <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
+                            </div>
+                        </Col>
                     </Row>
 
                 </Container>
