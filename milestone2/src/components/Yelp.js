@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Filters from "./Filters";
 import Table from "./Table";
 import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from "reactstrap";
-import axios from "axios";
 
 function isEmpty(obj) {
     for(var key in obj) {
@@ -109,14 +108,6 @@ class Yelp extends Component{
             .catch(err =>{
                 console.log(err);
             })
-        }
-    }
-
-    handleBusinessFetchReq() {
-        this.setState({ isLoading: true });
-        if (this.state.selectedCity !== null)
-        {
-            url += "?state=" + this.state.selectedState + "&city=" + this.state.selectedCity;
         }
     }
 
