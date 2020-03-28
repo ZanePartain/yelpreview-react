@@ -20,8 +20,10 @@ class Yelp extends Component{
         this.state = {
             selectedState: [],
             selectedCity: null,
+            selectedPostalCode: null,
             states: [],
             city: [],
+            postalCodes: [],
             bizQuery: [],
             isLoading: false,
         }
@@ -49,6 +51,11 @@ class Yelp extends Component{
 
     }
 
+    handleSelectPostalCode = (e) =>{
+        e.preventDefault();
+        this.setState({ selectedPostalCode: e.target.value });
+    }
+
     handleSelect = (e) => {
         e.preventDefault();
         if (e.target.name === "selectedState"){
@@ -64,19 +71,44 @@ class Yelp extends Component{
                 selectedCity: null, 
                 cities: {}
             }, () => {
-                this.handleCityFetchRequest();
+                this.handleCityFetchReq();
             });
             
         }
         else{
             this.setState({ [e.target.name]: e.target.value }, () =>{
-                this.handleFetchRequest();
+                    this.handlePostalCodeFetchReq();
             });
         }
-
     }
 
-    handleBusinessFetchRequest() {
+    handlePostalCodeFetchReq(){
+        if (this.state.selectedCity !== null){
+            let newUrl = url
+            newUrl += "/" + this.state.selectedCity;
+    
+            fetch(newUrl, {
+                method: "GET",
+            })
+            .then( resp => {
+                return resp.json();
+            })
+            .then( myJSON => {
+                console.log(myJSON);
+                let p_codes = []
+                for (let i = 0; i < myJSON.length; i++){
+                    p_codes.push(myJSON[i]["postal_code"]);
+                }
+
+                this.setState({postalCodes: p_codes});
+            })
+            .catch(err =>{
+                console.log(err);
+            })
+        }
+    }
+
+    handleBusinessFetchReq() {
         this.setState({ isLoading: true });
         if (this.state.selectedCity !== null)
         {
@@ -84,7 +116,7 @@ class Yelp extends Component{
         }
     }
 
-    handleCityFetchRequest() {
+    handleCityFetchReq() {
         this.setState({ isLoading: true });
 
         console.log({"selected states": this.state.selectedState});
@@ -119,18 +151,29 @@ class Yelp extends Component{
     
 
     render(){
-
         return(
             <div>
                 <Container>
                     <Row>
 
-                        {/**STATE MULTI-SELECT */}
+                        {/** STATE MULTI-SELECT */}
                         <Form>
                             <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
                                 <Label for="selectMultipleStates">Select States</Label>
                                 <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: 200}} onChange={this.handleSelect.bind(this)}>
                                     {this.state.states.map((item, key) => {
+                                        return <option key={key} value={item} id={item}>{item}</option>
+                                    })}
+                                </Input>
+                            </FormGroup>
+                        </Form>
+
+                        {/** POSTAL CODE SELECT */}
+                        <Form>
+                            <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
+                                <Label for="selectPostcalCode">Select Postal Code</Label>
+                                <Input type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
+                                    {this.state.postalCodes.map((item, key) => {
                                         return <option key={key} value={item} id={item}>{item}</option>
                                     })}
                                 </Input>
@@ -147,13 +190,13 @@ class Yelp extends Component{
                             padding: 5,
                             display: "inline-block"
                         }}>
+
                             {/* {JSON.stringify(this.state.selectedCity)} */}
                             {/* {JSON.stringify(this.state.selectedState)} */}
                             {/* {JSON.stringify(this.state.bizQuery)} */}
                             {/* {JSON.stringify(this.state.city)} */}
-                            {JSON.stringify(this.state.city)}
+                            {/* {JSON.stringify(this.state.postalCodes)} */}
                             
-
                             <div style={{backgroundColor: "eggshell", padding: 10}}>
                                 <Form>
 
