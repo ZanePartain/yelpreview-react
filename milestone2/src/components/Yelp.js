@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Filters from "./Filters";
 import Table from "./Table";
-import { Button, Form, FormGroup, Label, Input, FormText, Container, Row } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from "reactstrap";
 import axios from "axios";
 
 function isEmpty(obj) {
@@ -56,30 +56,29 @@ class Yelp extends Component{
         this.setState({ selectedPostalCode: e.target.value });
     }
 
-    handleSelect = (e) => {
+    handleSelectCityCode = (e) => {
         e.preventDefault();
-        if (e.target.name === "selectedState"){
-            // new state was selected so repopulate the available cities
-            let states = []
-            for (let i = 0; i < e.target.selectedOptions.length; i++){
-                states.push(e.target.selectedOptions[i]["value"]);
-            }
+        this.setState({ selectedCity: e.target.value }, () =>{
+            this.handlePostalCodeFetchReq();
+        });
+    }
 
-            // set state and fetchthe cities of the given states
-            this.setState({
-                selectedState: states,
-                selectedCity: null, 
-                cities: {}
-            }, () => {
-                this.handleCityFetchReq();
-            });
-            
+    handleStateSelect = (e) => {
+        e.preventDefault();
+        // new state was selected so repopulate the available cities
+        let states = []
+        for (let i = 0; i < e.target.selectedOptions.length; i++){
+            states.push(e.target.selectedOptions[i]["value"]);
         }
-        else{
-            this.setState({ [e.target.name]: e.target.value }, () =>{
-                    this.handlePostalCodeFetchReq();
-            });
-        }
+
+        // set state and fetchthe cities of the given states
+        this.setState({
+            selectedState: states,
+            selectedCity: null, 
+            cities: {}
+        }, () => {
+            this.handleCityFetchReq();
+        });
     }
 
     handlePostalCodeFetchReq(){
@@ -155,29 +154,42 @@ class Yelp extends Component{
             <div>
                 <Container>
                     <Row>
-
-                        {/** STATE MULTI-SELECT */}
                         <Form>
+                            {/** STATE MULTI-SELECT */}
                             <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
                                 <Label for="selectMultipleStates">Select States</Label>
-                                <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: 200}} onChange={this.handleSelect.bind(this)}>
+                                <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
                                     {this.state.states.map((item, key) => {
                                         return <option key={key} value={item} id={item}>{item}</option>
                                     })}
                                 </Input>
                             </FormGroup>
-                        </Form>
+                            <Container>
 
-                        {/** POSTAL CODE SELECT */}
-                        <Form>
-                            <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
-                                <Label for="selectPostcalCode">Select Postal Code</Label>
-                                <Input type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
-                                    {this.state.postalCodes.map((item, key) => {
-                                        return <option key={key} value={item} id={item}>{item}</option>
-                                    })}
-                                </Input>
-                            </FormGroup>
+                                <Row>
+                                    {/** CITY SELECT */}
+                                    <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
+                                        <Label for="selectCity">Select City</Label>
+                                        <Input type="select" name="selectedCity" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectCityCode.bind(this)}>
+                                            {this.state.city.map((item, key) => {
+                                                return <option key={key} value={item} id={item}>{item}</option>
+                                            })}
+                                        </Input>
+                                    </FormGroup>
+                                </Row>
+                                <Row>
+
+                                    {/** POSTAL CODE SELECT */}
+                                    <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
+                                        <Label for="selectPostcalCode">Select Postal Code</Label>
+                                        <Input type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
+                                            {this.state.postalCodes.map((item, key) => {
+                                                return <option key={key} value={item} id={item}>{item}</option>
+                                            })}
+                                        </Input>
+                                    </FormGroup>
+                                </Row>
+                            </Container>
                         </Form>
 
                         <div style={{
@@ -196,41 +208,6 @@ class Yelp extends Component{
                             {/* {JSON.stringify(this.state.bizQuery)} */}
                             {/* {JSON.stringify(this.state.city)} */}
                             {/* {JSON.stringify(this.state.postalCodes)} */}
-                            
-                            <div style={{backgroundColor: "eggshell", padding: 10}}>
-                                <Form>
-
-                                    <FormGroup>
-                                        <Label for="stateSelect">City</Label>
-                                        <div style={{height: "100px", width: "100%", overflow: "scroll", backgroundColor:"eggshell", border: "1px solid black", borderRadius: 10}}>
-                                            {this.state.isLoading 
-                                                ? "...Loading" 
-                                                : isEmpty(this.state.city) 
-                                                    ? "No Cities Found"
-                                                    : this.state.city.map( (item,key) => 
-                                                        <button style={{
-                                                            height: "30px",
-                                                            width: "100%",
-                                                            backgroundColor: "whitesmoke",
-                                                            borderTop: "none",
-                                                            borderBottom: "1px solid black",
-                                                            fontSize: "18px",
-                                                            textAlign: "left",
-                                                            margin: "none",
-                                                            padding: "none",
-                                                        }}
-                                                        name="selectedCity"
-                                                        value={item}
-                                                        onClick={this.handleSelect.bind(this)}
-                                                        >
-                                                            {item}
-                                                        </button>
-                                                        //<div style={{ height: "30px", width: "100%",color: "black"}}>{key} {console.log(key)}</div>
-                                                    )}
-                                        </div>
-                                    </FormGroup>
-                                </Form>
-                            </div>
 
                             <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
                         </div>
