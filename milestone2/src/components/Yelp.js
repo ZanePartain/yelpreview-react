@@ -58,7 +58,10 @@ class Yelp extends Component{
 
     handleSelectCityCode = (e) => {
         e.preventDefault();
-        this.setState({ selectedCity: e.target.value }, () =>{
+        this.setState({ 
+            selectedCity: e.target.value,
+            postalCodes: []
+        }, () =>{
             this.handlePostalCodeFetchReq();
         });
     }
@@ -75,7 +78,7 @@ class Yelp extends Component{
         this.setState({
             selectedState: states,
             selectedCity: null, 
-            cities: {}
+            postalCodes: []  // reset postal codes
         }, () => {
             this.handleCityFetchReq();
         });
