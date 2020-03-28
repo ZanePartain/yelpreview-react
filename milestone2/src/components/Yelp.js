@@ -60,7 +60,8 @@ class Yelp extends Component{
         e.preventDefault();
         this.setState({ 
             selectedCity: e.target.value,
-            postalCodes: []
+            postalCodes: [],
+            selectedPostalCode: null,
         }, () =>{
             this.handlePostalCodeFetchReq();
         });
@@ -78,7 +79,8 @@ class Yelp extends Component{
         this.setState({
             selectedState: states,
             selectedCity: null, 
-            postalCodes: []  // reset postal codes
+            postalCodes: [],  // reset postal codes
+            selectedPostalCode: null,  // reset select code
         }, () => {
             this.handleCityFetchReq();
         });
@@ -151,6 +153,15 @@ class Yelp extends Component{
         })
     }
     
+    handleSearchBusiness = (e) =>{
+        e.preventDefault();
+        if (this.state.postalCodes.length == 1){
+            this.setState({selectedPostalCode: this.state.postalCodes[0]}, ()=>{
+                console.log(this.state.selectedPostalCode);
+                // TODO handle fetch for business in the area.
+            })
+        }
+    }
 
     render(){
         return(
@@ -173,25 +184,27 @@ class Yelp extends Component{
                                     {/** CITY SELECT */}
                                     <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
                                         <Label for="selectCity">Select City</Label>
-                                        <Input type="select" name="selectedCity" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectCityCode.bind(this)}>
+                                        <Input placeholder="City" type="select" name="selectedCity" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectCityCode.bind(this)}>
                                             {this.state.city.map((item, key) => {
                                                 return <option key={key} value={item} id={item}>{item}</option>
                                             })}
                                         </Input>
                                     </FormGroup>
                                 </Row>
-                                <Row>
 
+                                <Row>
                                     {/** POSTAL CODE SELECT */}
                                     <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
                                         <Label for="selectPostcalCode">Select Postal Code</Label>
-                                        <Input type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
+                                        <Input placeholder="Postal Code" type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
                                             {this.state.postalCodes.map((item, key) => {
                                                 return <option key={key} value={item} id={item}>{item}</option>
                                             })}
                                         </Input>
                                     </FormGroup>
                                 </Row>
+
+                                <Button color="success" style={{width: '100%'}} onClick={this.handleSearchBusiness.bind(this)}>Search</Button>
                             </Container>
                         </Form>
 
