@@ -39,7 +39,6 @@ class Yelp extends Component{
             return resp.json();
         })
         .then( myJSON => {
-            console.log(myJSON);
             for (let i = 0; i < myJSON.length; i++){
                 this.setState({states: [...this.state.states, myJSON[i]["state"]]});
             }
@@ -63,7 +62,7 @@ class Yelp extends Component{
                 selectedState: states,
                 selectedCity: null, 
                 cities: {}
-            }, () =>{
+            }, () => {
                 this.handleFetchRequest();
             });
             

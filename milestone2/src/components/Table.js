@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import axios from 'axios';
 import BizRow from './BizRow';
 
 
