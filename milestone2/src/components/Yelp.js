@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Filters from './Filters';
-import Table from './Table';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import axios from 'axios';
+import React, { Component } from "react";
+import Filters from "./Filters";
+import Table from "./Table";
+import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import axios from "axios";
 
 function isEmpty(obj) {
     for(var key in obj) {
@@ -16,9 +16,9 @@ class Yelp extends Component{
     constructor(props){
         super(props);
         this.state = {
-            selectedState: 'AK',
+            selectedState: "AK",
             selectedCity: null,
-            states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
+            states: ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"],
             cities: {},
             bizQuery: [],
             isLoading: false,
@@ -41,18 +41,22 @@ class Yelp extends Component{
 
     handleFetchRequest() {
         this.setState({ isLoading: true });
-        let url = 'http://localhost:3000/business';
+        let url = "http://localhost:3000/business";
         if (this.state.selectedCity !== null)
         {
-            url += '?state=' + this.state.selectedState + '&city=' + this.state.selectedCity;
-        }
-        else 
-        {
-            url += '?state=' + this.state.selectedState;
+            console.log("here");
+            url += "?state=" + this.state.selectedState + "&city=" + this.state.selectedCity;
         }
 
+        console.log({"states": this.state.selectedState});
+
         fetch(url, {
-            method: "GET",
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({"states": [this.state.selectedState, 'IL']})
         })
         .then(response => {
             return response.json();
@@ -87,21 +91,21 @@ class Yelp extends Component{
         
         return(
             <div style={{
-                width: '600px', 
-                height: '600px',
-                backgroundColor: 'whitesmoke', 
-                border: '1px solid transparent',
+                width: "600px", 
+                height: "600px",
+                backgroundColor: "whitesmoke", 
+                border: "1px solid transparent",
                 borderRadius: 10,
-                color: 'black',
+                color: "black",
                 padding: 5,
-                display: 'inline-block'
+                display: "inline-block"
             }}>
                 {/* {JSON.stringify(this.state.selectedCity)} */}
                 {/* {JSON.stringify(this.state.selectedState)} */}
                 {/* {JSON.stringify(this.state.bizQuery)} */}
                 {/* {JSON.stringify(this.state.cities)} */}
 
-                <div style={{backgroundColor: 'eggshell', padding: 10}}>
+                <div style={{backgroundColor: "eggshell", padding: 10}}>
                     <Form>
                         <FormGroup>
                             <Label for="stateSelect">Select</Label>
@@ -114,22 +118,22 @@ class Yelp extends Component{
                         </FormGroup>
                         <FormGroup>
                             <Label for="stateSelect">City</Label>
-                            <div style={{height: '100px', width: '100%', overflow: 'scroll', backgroundColor:'eggshell', border: '1px solid black', borderRadius: 10}}>
+                            <div style={{height: "100px", width: "100%", overflow: "scroll", backgroundColor:"eggshell", border: "1px solid black", borderRadius: 10}}>
                                 {this.state.isLoading 
-                                    ? '...Loading' 
+                                    ? "...Loading" 
                                     : isEmpty(this.state.cities) 
-                                        ? 'No Cities Found'
+                                        ? "No Cities Found"
                                         : Object.keys(this.state.cities).map( key => 
                                             <button style={{
-                                                height: '30px',
-                                                width: '100%',
-                                                backgroundColor: 'whitesmoke',
-                                                borderTop: 'none',
-                                                borderBottom: '1px solid black',
-                                                fontSize: '18px',
-                                                textAlign: 'left',
-                                                margin: 'none',
-                                                padding: 'none',
+                                                height: "30px",
+                                                width: "100%",
+                                                backgroundColor: "whitesmoke",
+                                                borderTop: "none",
+                                                borderBottom: "1px solid black",
+                                                fontSize: "18px",
+                                                textAlign: "left",
+                                                margin: "none",
+                                                padding: "none",
                                             }}
                                             name="selectedCity"
                                             value={key}
@@ -137,7 +141,7 @@ class Yelp extends Component{
                                             >
                                                 {key}
                                             </button>
-                                            //<div style={{ height: '30px', width: '100%',color: 'black'}}>{key} {console.log(key)}</div>
+                                            //<div style={{ height: "30px", width: "100%",color: "black"}}>{key} {console.log(key)}</div>
                                         )}
                             </div>
                         </FormGroup>
