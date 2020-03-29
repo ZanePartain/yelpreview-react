@@ -67,6 +67,39 @@ class Yelp extends Component{
         });
     }
 
+    handleCategorySelect = (e) => {
+        e.preventDefault();
+        let cats = []
+        for (let i = 0; i < e.target.selectedOptions.length; i++){
+            cats.push(e.target.selectedOptions[i]["value"]);
+        }
+        console.log('selected cats', cats);
+
+        let newurl = url;
+        newurl += '/categoryFilter';
+        console.log(newurl);
+        
+        fetch(newurl, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({"categories": cats, "postalCode": this.state.selectedPostalCode})
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then( myJSON => {
+            // unpack the businesses that abide by the category filters
+            console.log('CAT FILTER BIZ', myJSON)
+            this.setState({ bizQuery: myJSON });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
     handleStateSelect = (e) => {
         e.preventDefault();
         // new state was selected so repopulate the available cities
@@ -98,7 +131,6 @@ class Yelp extends Component{
                 return resp.json();
             })
             .then( myJSON => {
-                console.log(myJSON);
                 let p_codes = []
                 for (let i = 0; i < myJSON.length; i++){
                     p_codes.push(myJSON[i]["postal_code"]);
@@ -114,8 +146,6 @@ class Yelp extends Component{
 
     handleCityFetchReq() {
         this.setState({ isLoading: true });
-
-        console.log({"selected states": this.state.selectedState});
 
         fetch(url, {
             method: "POST",
@@ -148,7 +178,6 @@ class Yelp extends Component{
     businessFetchReq() {
         let newUrl = url;
         newUrl += '/list/' + this.state.selectedPostalCode;
-        console.log('BUSINESS FETCH REQ', this.state.selectedPostalCode);
         
         fetch(newUrl, {
             method: "GET",
@@ -157,33 +186,37 @@ class Yelp extends Component{
             return resp.json();
         })
         .then( myJSON => {
-            console.log(myJSON);
             this.setState({ bizQuery: myJSON });
         })
         .catch(err =>{
             console.log(err);
         });
+
     }
     
     handleSearchBusiness = (e) =>{
+        this.setState({category: []})
         e.preventDefault();
         if (this.state.postalCodes.length == 1){
             this.setState({selectedPostalCode: this.state.postalCodes[0]}, ()=>{
-                console.log(this.state.selectedPostalCode);
                 // TODO handle fetch for business in the area.
                 this.businessFetchReq();
+                this.handleBusinessCategoryFetchReq();
+
             });
         }
         if (this.state.postalCodes == null){
             // TODO grab DOM element postal select
         }
         this.businessFetchReq();
+        this.handleBusinessCategoryFetchReq();
+
     }
 
     handleBusinessCategoryFetchReq() {
-        let newUrl = url;
-        newUrl += '/category/' + this.state.selectedPostalCode;
+        let newUrl = 'http://localhost:3000/category/' + this.state.selectedPostalCode;
         console.log('BUSINESS CATEGORY FETCH REQ', this.state.selectedPostalCode);
+        console.log(newUrl);
         
         fetch(newUrl, {
             method: "GET",
@@ -192,8 +225,12 @@ class Yelp extends Component{
             return resp.json();
         })
         .then( myJSON => {
-            console.log(myJSON);
-            this.setState({ category: myJSON });
+            console.log("CATEGORY", myJSON);
+            let cats = []
+            for (let i = 0; i < myJSON.length; i++){
+                cats.push(myJSON[i]['type']);
+            }
+            this.setState({ category: cats });
         })
         .catch(err =>{
             console.log(err);
@@ -207,16 +244,28 @@ class Yelp extends Component{
                     <Row>
                         <Col>
                             <Form>
-                                {/** STATE MULTI-SELECT */}
-                                <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
-                                    <Label for="selectMultipleStates">Select States</Label>
-                                    <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
-                                        {this.state.states.map((item, key) => {
-                                            return <option key={key} value={item} id={item}>{item}</option>
-                                        })}
-                                    </Input>
-                                </FormGroup>
                                 <Container>
+                                    <Row>
+                                        {/** STATE MULTI-SELECT */}
+                                        <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
+                                            <Label for="selectMultipleStates">Select States</Label>
+                                            <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
+                                                {this.state.states.map((item, key) => {
+                                                    return <option key={key} value={item} id={item}>{item}</option>
+                                                })}
+                                            </Input>
+                                        </FormGroup>
+
+                                        {/** STATE MULTI-SELECT */}
+                                        <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
+                                            <Label for="selectMultipleCategories">Select Category</Label>
+                                            <Input type="select" name="selectedCategories" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleCategorySelect.bind(this)}>
+                                                {this.state.category.map((item, key) => {
+                                                    return <option key={key} value={item} id={item}>{item}</option>
+                                                })}
+                                            </Input>
+                                        </FormGroup>
+                                    </Row>
 
                                     <Row>
                                         {/** CITY SELECT */}
@@ -228,6 +277,7 @@ class Yelp extends Component{
                                                 })}
                                             </Input>
                                         </FormGroup>
+                                        
                                     </Row>
 
                                     <Row>
@@ -246,20 +296,7 @@ class Yelp extends Component{
                                 </Container>
                             </Form>
                         </Col>
-                        <Col>
-                        <Row>
-                            {/** STATE MULTI-SELECT */}
-                            <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
-                                <Label for="selectMultipleStates">Select Category</Label>
-                                <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
-                                    {this.state.states.map((item, key) => {
-                                        return <option key={key} value={item} id={item}>{item}</option>
-                                    })}
-                                </Input>
-                            </FormGroup>
-
-                        </Row>
-                        </Col>
+                        
                         <Col>
                             <div style={{
                                 width: "600px", 
@@ -278,6 +315,7 @@ class Yelp extends Component{
                                 {/* {JSON.stringify(this.state.bizQuery)} */}
                                 {/* {JSON.stringify(this.state.city)} */}
                                 {/* {JSON.stringify(this.state.postalCodes)} */}
+                                {/* {JSON.stringify(this.state.category)} */}
 
                                 <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
                             </div>
