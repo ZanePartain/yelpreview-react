@@ -237,6 +237,14 @@ class Yelp extends Component{
         });
     }
 
+    handleClearCategory = (e) =>{
+        e.preventDefault();
+        this.setState({category: []}, () => {
+            this.businessFetchReq();
+            this.handleBusinessCategoryFetchReq();
+        });
+    }
+
     render(){
         return(
             <div>
@@ -256,7 +264,7 @@ class Yelp extends Component{
                                             </Input>
                                         </FormGroup>
 
-                                        {/** STATE MULTI-SELECT */}
+                                        {/** CATEGORY MULTI-SELECT */}
                                         <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
                                             <Label for="selectMultipleCategories">Select Category</Label>
                                             <Input type="select" name="selectedCategories" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleCategorySelect.bind(this)}>
@@ -277,7 +285,9 @@ class Yelp extends Component{
                                                 })}
                                             </Input>
                                         </FormGroup>
-                                        
+                                        <Col>
+                                            <Button color="info" style={{width: '100%', height: 30, padding: 0}} onClick={this.handleClearCategory.bind(this)}>Clear Filter</Button>
+                                        </Col>
                                     </Row>
 
                                     <Row>
