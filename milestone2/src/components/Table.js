@@ -60,7 +60,7 @@ class Table extends Component{
                             /** iterate over all keys in biz object */
                             // console.log(val);
                             return(
-                                <BizRow keu={key} val={val} />
+                                <BizRow key={key} val={val} />
                             )
                         })}
                     </tbody>
