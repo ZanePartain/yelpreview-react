@@ -1,20 +1,23 @@
-import React, { useState, Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Container, Label, Row, Col } from 'reactstrap';
+import React, {Component} from "react";
+import UserSelect from "./UserSelect";
+import UserInfo from "./UserInfo";
+import FriendsList from "./FriendsList";
 
-class UserPage extends Component {
-    constructor(props){
+
+class Users extends Component {
+    constructor(props) {
         super(props);
-        this.state={
-        };
     }
-  
-    render(){
+
+    render() {
         return (
-        <div>
-           <h1>User page</h1>
-        </div>
-        );
+            <div>
+                <UserSelect/>
+                <UserInfo/>
+                <FriendsList/>
+            </div>
+        )
     }
-  }
-  
-  export default UserPage;
+}
+
+export default Users;
