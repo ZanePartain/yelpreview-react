@@ -1,7 +1,7 @@
 import React, { Component }from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Yelp  from './components/Yelp';
+import Yelp  from './components/bizpage/Yelp';
 import UserPage from './components/UserPage';
 import MyNav from './components/Navbar';
 import {
@@ -15,7 +15,6 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      states: ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'],
     };
   }
 
@@ -24,11 +23,11 @@ class App extends Component {
     return (
       <Router>
         <MyNav />
-        <div className="App" style={{color: 'black'}}>
-        <Switch>
-          <Route exact path="/" component={Yelp}/>
-          <Route exact path="/user" component={UserPage}/>
-        </Switch>
+        <div className="App-header">
+            <Switch>
+              <Route exact path="/" component={Yelp}/>
+              <Route exact path="/user" component={UserPage}/>
+            </Switch>
         </div>
       </Router>
     );

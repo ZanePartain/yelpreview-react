@@ -121,7 +121,7 @@ class Yelp extends Component{
     handlePostalCodeFetchReq(){
         if (this.state.selectedCity !== null){
             let newUrl = url
-            newUrl += "/" + this.state.selectedCity;
+            newUrl += "/postalCodesInCity/" + this.state.selectedCity;
     
             fetch(newUrl, {
                 method: "GET",
@@ -146,7 +146,7 @@ class Yelp extends Component{
     handleCityFetchReq() {
         this.setState({ isLoading: true });
 
-        fetch(url, {
+        fetch(url + '/byStates', {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -176,7 +176,7 @@ class Yelp extends Component{
 
     businessFetchReq() {
         let newUrl = url;
-        newUrl += '/list/' + this.state.selectedPostalCode;
+        newUrl += '/inPostalCode/' + this.state.selectedPostalCode;
         
         fetch(newUrl, {
             method: "GET",
@@ -213,7 +213,7 @@ class Yelp extends Component{
     }
 
     handleBusinessCategoryFetchReq() {
-        let newUrl = 'http://localhost:3000/category/' + this.state.selectedPostalCode;
+        let newUrl = 'http://localhost:3000/category/byPostalCode/' + this.state.selectedPostalCode;
         console.log('BUSINESS CATEGORY FETCH REQ', this.state.selectedPostalCode);
         console.log(newUrl);
         
@@ -250,88 +250,102 @@ class Yelp extends Component{
                 <Container>
                     <Row>
                         <Col>
-                            <Form>
-                                <Container>
-                                    <Row>
-                                        {/** STATE MULTI-SELECT */}
-                                        <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
-                                            <Label for="selectMultipleStates">Select States</Label>
-                                            <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
-                                                {this.state.states.map((item, key) => {
-                                                    return <option key={key} value={item} id={item}>{item}</option>
-                                                })}
-                                            </Input>
-                                        </FormGroup>
+                        <Form>
+                            <Container style={{width: '500px'}}>
+                                <Row>
+                                    <Col>
+                                        <Row>
+                                            {/** STATE MULTI-SELECT */}
+                                            <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
+                                                <Label for="selectMultipleStates">Select States</Label>
+                                                <Input type="select" name="selectedState" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleStateSelect.bind(this)}>
+                                                    {this.state.states.map((item, key) => {
+                                                        return <option key={key} value={item} id={item}>{item}</option>
+                                                    })}
+                                                </Input>
+                                            </FormGroup>
+                                        </Row>
 
-                                        {/** CATEGORY MULTI-SELECT */}
-                                        <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
-                                            <Label for="selectMultipleCategories">Select Category</Label>
-                                            <Input type="select" name="selectedCategories" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleCategorySelect.bind(this)}>
-                                                {this.state.category.map((item, key) => {
-                                                    return <option key={key} value={item} id={item}>{item}</option>
-                                                })}
-                                            </Input>
-                                        </FormGroup>
-                                    </Row>
+                                        <Row>
+                                            {/** CITY SELECT */}
+                                            <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: '100%'}}>
+                                                <Label for="selectCity">Select City</Label>
+                                                <Input placeholder="City" type="select" name="selectedCity" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectCityCode.bind(this)}>
+                                                    {this.state.city.map((item, key) => {
+                                                        return <option key={key} value={item} id={item}>{item}</option>
+                                                    })}
+                                                </Input>
+                                            </FormGroup>
+                                        </Row>
 
-                                    <Row>
-                                        {/** CITY SELECT */}
-                                        <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
-                                            <Label for="selectCity">Select City</Label>
-                                            <Input placeholder="City" type="select" name="selectedCity" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectCityCode.bind(this)}>
-                                                {this.state.city.map((item, key) => {
-                                                    return <option key={key} value={item} id={item}>{item}</option>
-                                                })}
-                                            </Input>
-                                        </FormGroup>
-                                        <Col>
-                                            <Button color="info" style={{width: '100%', height: 30, padding: 0}} onClick={this.handleClearCategory.bind(this)}>Clear Filter</Button>
-                                        </Col>
-                                    </Row>
-
-                                    <Row>
-                                        {/** POSTAL CODE SELECT */}
-                                        <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: 200}}>
-                                            <Label for="selectPostcalCode">Select Postal Code</Label>
-                                            <Input placeholder="Postal Code" type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
-                                                {this.state.postalCodes.map((item, key) => {
-                                                    return <option key={key} value={item} id={item}>{item}</option>
-                                                })}
-                                            </Input>
-                                        </FormGroup>
-                                    </Row>
-
-                                    <Button color="success" style={{width: '100%'}} onClick={this.handleSearchBusiness.bind(this)}>Search</Button>
-                                </Container>
-                            </Form>
+                                        <Row>
+                                            {/** POSTAL CODE SELECT */}
+                                            <FormGroup style={{display: 'block', margin: 20, marginTop: 0, width: '100%'}}>
+                                                <Label for="selectPostcalCode">Select Postal Code</Label>
+                                                <Input placeholder="Postal Code" type="select" name="selectedPostalCode" id="exampleSelect" style={{height: 'auto'}} onChange={this.handleSelectPostalCode.bind(this)}>
+                                                    {this.state.postalCodes.map((item, key) => {
+                                                        return <option key={key} value={item} id={item}>{item}</option>
+                                                    })}
+                                                </Input>
+                                            </FormGroup>
+                                        </Row>
+                                    </Col>
+                                    <Col>
+                                        <Row>
+                                            {/** CATEGORY MULTI-SELECT */}
+                                            <FormGroup style={{display: 'inline-block', margin: 20, marginTop: 0, width: 200}}>
+                                                <Label for="selectMultipleCategories">Select Category</Label>
+                                                <Input type="select" name="selectedCategories" id="exampleSelectMulti" multiple style={{height: '170px'}} onChange={this.handleCategorySelect.bind(this)}>
+                                                    {this.state.category.map((item, key) => {
+                                                        return <option key={key} value={item} id={item}>{item}</option>
+                                                    })}
+                                                </Input>
+                                               
+                                            </FormGroup>
+                                        </Row>
+                                        <Row>
+                                            <Col style={{ width: "100%"}}>
+                                                    <Button color="info" style={{width: '100%', height: 30, padding: 0}} onClick={this.handleClearCategory.bind(this)}>Clear Filter</Button>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col>
+                                        <Button color="success" style={{width: '45%'}} onClick={this.handleSearchBusiness.bind(this)}>Search</Button>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Form>
                         </Col>
-                        
+
                         <Col>
-                            <div style={{
-                                width: "600px", 
-                                height: "600px",
-                                backgroundColor: "whitesmoke", 
-                                border: "1px solid transparent",
-                                borderRadius: 5,
-                                color: "black",
-                                padding: 5,
-                                display: "inline-block",
-                                overflow: "scroll"
-                            }}>
+                            <Container style={{width: '100%'}}>
 
-                                {/* {JSON.stringify(this.state.selectedCity)} */}
-                                {/* {JSON.stringify(this.state.selectedState)} */}
-                                {/* {JSON.stringify(this.state.bizQuery)} */}
-                                {/* {JSON.stringify(this.state.city)} */}
-                                {/* {JSON.stringify(this.state.postalCodes)} */}
-                                {/* {JSON.stringify(this.state.category)} */}
 
-                                <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
-                            </div>
+                                <div style={{
+                                    width: "inherit", 
+                                    height: "600px",
+                                    backgroundColor: "whitesmoke", 
+                                    border: "1px solid transparent",
+                                    borderRadius: 5,
+                                    color: "black",
+                                    padding: 5,
+                                    display: "inline-block",
+                                    overflow: "scroll"
+                                }}>
+
+                                    {/* {JSON.stringify(this.state.selectedCity)} */}
+                                    {/* {JSON.stringify(this.state.selectedState)} */}
+                                    {/* {JSON.stringify(this.state.bizQuery)} */}
+                                    {/* {JSON.stringify(this.state.city)} */}
+                                    {/* {JSON.stringify(this.state.postalCodes)} */}
+                                    {/* {JSON.stringify(this.state.category)} */}
+
+                                    <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
+                                </div>
+                                </Container>
+                            
                         </Col>
-                       
                     </Row>
-
                 </Container>
             </div>
 
