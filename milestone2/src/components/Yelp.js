@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Filters from "./Filters";
 import Table from "./Table";
 import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from "reactstrap";
 
