@@ -246,7 +246,7 @@ class Yelp extends Component{
 
     render(){
         return(
-            <div>
+            <div style={{marginTop: "5%"}}>
                 <Container>
                     <Row>
                         <Col>
@@ -319,10 +319,8 @@ class Yelp extends Component{
 
                         <Col>
                             <Container style={{width: '100%'}}>
-
-
                                 <div style={{
-                                    width: "inherit", 
+                                    width: "inherit",
                                     height: "600px",
                                     backgroundColor: "whitesmoke", 
                                     border: "1px solid transparent",
@@ -342,8 +340,7 @@ class Yelp extends Component{
 
                                     <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
                                 </div>
-                                </Container>
-                            
+                            </Container>
                         </Col>
                     </Row>
                 </Container>

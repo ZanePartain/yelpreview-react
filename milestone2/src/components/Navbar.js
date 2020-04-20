@@ -23,7 +23,7 @@ class MyNav extends Component {
 
         return(
             <div>
-                <Navbar color="light" light expand="md">
+                <Navbar color="light" light expand="md" style={{position: 'fixed', width: '100%', zIndex: 1}}>
                     <NavbarBrand href="/" > Yelp Review </NavbarBrand>
                     
                     <NavbarToggler onClick={this.toggle.bind(this)} />
