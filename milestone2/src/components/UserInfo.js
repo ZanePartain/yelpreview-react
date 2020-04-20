@@ -1,4 +1,5 @@
-import {Component} from "react";
+import React, {Component} from "react";
+
 
 
 class UserInfo extends Component {
