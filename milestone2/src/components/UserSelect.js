@@ -1,22 +1,24 @@
 import React, {Component} from "react";
-import {Input, InputGroup} from "reactstrap";
+import {Col, Input, InputGroup, Label} from "reactstrap";
 
 
 class UserSelect extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
             matchingUsers: [],
             selectedUser: {}
         }
     }
 
     updateUserList = e => fetch(
-        'http://localhost:3000/user/byName/' + this.state.name,
+        'http://localhost:3000/user/byName/' + e.target.value,
         {method: 'GET'}
         ).then((resp) => {
-            let userList = resp.json();
+            console.log(resp);
+            return resp.json();
+        }).then(userList => {
+            console.log(userList);
             this.setState({matchingUsers: userList})
         }).catch(err =>{
             console.log(err);
@@ -27,16 +29,19 @@ class UserSelect extends Component {
         return (
             <div>
                 <InputGroup>
-                    <Input placeholder={'Name'} name={'name'} onChange={this.updateUserList} />
-                    <Input type={'select'} name={'selectedUser'}>
-                        {
-                            this.state.matchingUsers.map((user, index) => {
-                                return (
-                                    <option key={index} value={user} id={user}>{user}</option>
-                                )
-                            })
-                        }
-                    </Input>
+                    <Col>
+                        <Label for={'name'}>Name</Label>
+                        <Input placeholder={'Name'} name={'name'} onChange={this.updateUserList} />
+                        <Input type={'select'} name={'selectedUser'}>
+                            {
+                                this.state.matchingUsers.map((user, index) => {
+                                    return (
+                                        <option key={index} value={user} id={user}>{user.id}</option>
+                                    )
+                                })
+                            }
+                        </Input>
+                    </Col>
                 </InputGroup>
             </div>
         )
