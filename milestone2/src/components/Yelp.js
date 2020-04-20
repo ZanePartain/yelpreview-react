@@ -122,7 +122,7 @@ class Yelp extends Component{
     handlePostalCodeFetchReq(){
         if (this.state.selectedCity !== null){
             let newUrl = url
-            newUrl += "/" + this.state.selectedCity;
+            newUrl += "/postalCodesInCity" + this.state.selectedCity;
     
             fetch(newUrl, {
                 method: "GET",
@@ -177,7 +177,7 @@ class Yelp extends Component{
 
     businessFetchReq() {
         let newUrl = url;
-        newUrl += '/list/' + this.state.selectedPostalCode;
+        newUrl += '/inPostalCode/' + this.state.selectedPostalCode;
         
         fetch(newUrl, {
             method: "GET",
@@ -214,7 +214,7 @@ class Yelp extends Component{
     }
 
     handleBusinessCategoryFetchReq() {
-        let newUrl = 'http://localhost:3000/category/' + this.state.selectedPostalCode;
+        let newUrl = 'http://localhost:3000/category/byPostalCode' + this.state.selectedPostalCode;
         console.log('BUSINESS CATEGORY FETCH REQ', this.state.selectedPostalCode);
         console.log(newUrl);
         
