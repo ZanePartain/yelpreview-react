@@ -15,10 +15,8 @@ class UserSelect extends Component {
         'http://localhost:3000/user/byName/' + e.target.value,
         {method: 'GET'}
         ).then((resp) => {
-            console.log(resp);
             return resp.json();
         }).then(userList => {
-            console.log(userList);
             this.setState({matchingUsers: userList})
         }).catch(err =>{
             console.log(err);
