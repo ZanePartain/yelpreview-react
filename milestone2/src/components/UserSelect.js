@@ -22,6 +22,9 @@ class UserSelect extends Component {
             console.log(err);
         });
 
+    updateSelectedUser = (e) => {
+        this.setState({selectedUser: e.target.value})
+    }
 
     render() {
         return (
@@ -30,7 +33,7 @@ class UserSelect extends Component {
                     <Col>
                         <Label for={'name'}>Name</Label>
                         <Input placeholder={'Name'} name={'name'} onChange={this.updateUserList} />
-                        <Input type={'select'} name={'selectedUser'}>
+                        <Input type={'select'} name={'selectedUser'} onChange={this.updateSelectedUser}>
                             {
                                 this.state.matchingUsers.map((user, index) => {
                                     return (
