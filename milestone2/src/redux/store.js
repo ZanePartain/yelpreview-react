@@ -1,11 +1,13 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import bizReducer from './reducers/biz.reducer';
+import userReducer from './reducers/user.reducer';
 
 // Creating the redux store for managing application state
 // export const history = createBrowserHistory();
 const allReducers = combineReducers(
   {
     biz: bizReducer,
+    user: userReducer,
   }
 );
 

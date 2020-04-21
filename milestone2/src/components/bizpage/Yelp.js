@@ -400,6 +400,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         handleSetBiz: (newBiz) => dispatch(setBiz(newBiz)),
     };
+    // this.props.handleSetBiz(newBiz[])
 }
 
 // We now have to connect our props to the component.
