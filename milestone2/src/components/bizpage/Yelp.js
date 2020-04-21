@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import Table from "./Table";
 import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from "reactstrap";
 
+// REDUX ACTIONS AND CONNECT IMPORTS
+import { setBiz } from '../../redux/reducers/biz.reducer';
+import { connect } from 'react-redux';
+
 function isEmpty(obj) {
     for(var key in obj) {
         if(obj.hasOwnProperty(key))
@@ -92,7 +96,16 @@ class Yelp extends Component{
         .then( myJSON => {
             // unpack the businesses that abide by the category filters
             console.log('CAT FILTER BIZ', myJSON)
-            this.setState({ bizQuery: myJSON });
+            this.setState({ bizQuery: myJSON }, () => {
+
+                /** HERE I AM DISPATCHING THE ACTION 'SETBIZ'
+                 * AND I AM PASSING IN THE NEW bizQuery ARRAY */
+
+                 // NOTE: I am only doing it in as an async func rn,
+                 //       because I do not want to affect any of the
+                 //       existing logic regarding 'bizQuery'.
+                this.props.handleSetBiz(this.state.bizQuery);
+            });
         })
         .catch(err => {
             console.log(err);
@@ -185,7 +198,15 @@ class Yelp extends Component{
             return resp.json();
         })
         .then( myJSON => {
-            this.setState({ bizQuery: myJSON });
+            this.setState({ bizQuery: myJSON }, () => {
+                /** HERE I AM DISPATCHING THE ACTION 'SETBIZ'
+                 * AND I AM PASSING IN THE NEW bizQuery ARRAY */
+
+                 // NOTE: I am only doing it in as an async func rn,
+                 //       because I do not want to affect any of the
+                 //       existing logic regarding 'bizQuery'.
+                this.props.handleSetBiz(this.state.bizQuery);
+            });
         })
         .catch(err =>{
             console.log(err);
@@ -351,4 +372,35 @@ class Yelp extends Component{
 
 }
 
-export default Yelp;
+/** HOW TO CONNECT A COMPONENT TO THE STORE */
+// Mapping store state to component props
+//
+// Each coponent can have properties passed to them from a parent
+// component. The child component can then access those properties,
+// through the 'this.state.props' variable. What we are doing below
+// is mapping the BizState reducer attribute 'biz []' to a property
+// named 'biz'. So this component will be able to use the biz[] in 
+// store (inside the biz reducer) through 'this.state.props.biz'
+const mapStateToProps = (state) => {
+    return {
+        biz: state.biz.biz,
+    };
+};
+
+// Mapping dispatch actions to component props
+//
+// Again we are now passing actions to be dispatched
+// as properties this time. The action setBiz which is
+// defined in the biz.reducer, will be passed in as a
+// property named 'handleSetBiz'. This method takes in
+// business, and then the business [] get sent as the
+// payload to the reducer. The reducer will then handle 
+// mutating state.
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleSetBiz: (newBiz) => dispatch(setBiz(newBiz)),
+    };
+}
+
+// We now have to connect our props to the component.
+export default connect(mapStateToProps, mapDispatchToProps)(Yelp);
