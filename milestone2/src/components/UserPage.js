@@ -1,5 +1,4 @@
-import React, { useState, Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Container, Label, Row, Col } from 'reactstrap';
+import React, { Component } from 'react';
 
 class UserPage extends Component {
     constructor(props){
