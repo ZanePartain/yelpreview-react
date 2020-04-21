@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Container, Label, Row, Col } from 'reactstrap';
 
 class ModalExample extends Component {
