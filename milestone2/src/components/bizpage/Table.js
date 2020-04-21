@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
 import BizRow from './BizRow';
 
 
