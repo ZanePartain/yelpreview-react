@@ -5,31 +5,6 @@ import {connect} from "react-redux";
 class LatestTips extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tips: []
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.friends !== prevProps.friends) {
-            this.updateTips();
-        }
-    }
-
-    updateTips() {
-        let tips = [];
-        this.props.friends.map((friend, index) => {
-            fetch(
-                'http://localhost:3000/tip/latestByUser/' + friend.id,
-                {method: 'GET'}
-            ).then((resp) => {
-                return resp.json()
-            }).then((tip) => {
-                tips.push(tip)
-            })
-        })
-
-        this.setState({tips: tips})
     }
 
     render() {
@@ -47,7 +22,7 @@ class LatestTips extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.tips.map((tip, index) => {
+                    {this.props.tips.map((tip, index) => {
                         return (
                             <tr>
                                 <td>{tip.user.name}</td>
@@ -68,8 +43,7 @@ class LatestTips extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user,
-        friends: state.user.friends
+        tips: state.user.tips
     };
 };
 
