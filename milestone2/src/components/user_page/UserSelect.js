@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 import {Col, Input, InputGroup, Label} from "reactstrap";
+import {connect} from "react-redux";
+//import {setUser} from "../../redux/reducers/user.reducer";
 
 
 class UserSelect extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            matchingUsers: [],
-            selectedUser: {}
+            matchingUsers: []
         }
     }
 
@@ -23,7 +24,12 @@ class UserSelect extends Component {
         });
 
     updateSelectedUser = (e) => {
-        this.setState({selectedUser: e.target.value})
+        console.log(e.target);
+        this.props.handleSetUser(this.state.matchingUsers.find(
+            (elem) => {
+                return elem.id === e.target.value;
+            }
+        ));
     }
 
     render() {
@@ -31,13 +37,13 @@ class UserSelect extends Component {
             <div>
                 <InputGroup>
                     <Col>
-                        <Label for={'name'}>Name</Label>
-                        <Input placeholder={'Name'} name={'name'} onChange={this.updateUserList} />
-                        <Input type={'select'} name={'selectedUser'} onChange={this.updateSelectedUser}>
+                        <Label for='name'>Name</Label>
+                        <Input placeholder='Name' name='name' onChange={this.updateUserList} />
+                        <Input type='select' name='selectedUser' onChange={this.updateSelectedUser}>
                             {
                                 this.state.matchingUsers.map((user, index) => {
                                     return (
-                                        <option key={index} value={user} id={user}>{user.id}</option>
+                                        <option key={index} value={user.id} id={user.id}>{user.id}</option>
                                     )
                                 })
                             }
@@ -49,4 +55,16 @@ class UserSelect extends Component {
     }
 }
 
-export default UserSelect;
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        //handleSetUser: (newUser) => dispatch(setUser(newUser)),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSelect);

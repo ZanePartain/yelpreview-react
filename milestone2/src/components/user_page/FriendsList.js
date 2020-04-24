@@ -1,13 +1,11 @@
 import React, {Component} from "react";
 import {Table} from "reactstrap";
+import {connect} from "react-redux";
 
 
 class FriendsList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            friends: []
-        }
     }
 
     render() {
@@ -30,7 +28,7 @@ class FriendsList extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.friends.map((friend, index) => {
+                    {this.props.friends.map((friend, index) => {
                         return (
                             <tr>
                                 <td>{friend.name}</td>
@@ -54,4 +52,10 @@ class FriendsList extends Component {
     }
 }
 
-export default FriendsList;
+const mapStateToProps = (state) => {
+    return {
+        friends: state.user.friends
+    };
+};
+
+export default connect(mapStateToProps)(FriendsList);

@@ -10,8 +10,6 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import store from "./redux/store";
-import {Provider} from "react-redux";
 
 class App extends Component {
     constructor(props) {
@@ -22,7 +20,7 @@ class App extends Component {
 
     render() {
         return (
-            <Provider store={store}>
+
                 <Router>
                     <MyNav/>
                     <div className="App-header">
@@ -32,7 +30,7 @@ class App extends Component {
                         </Switch>
                     </div>
                 </Router>
-            </Provider>
+
         );
     }
 }

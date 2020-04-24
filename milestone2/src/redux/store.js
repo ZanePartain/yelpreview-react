@@ -15,7 +15,7 @@ const allReducers = combineReducers(
 // create store and enable Redux DevTools Chrome extension
 const store = createStore(
     allReducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    [window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()],
     applyMiddleware(thunk)
 );
 

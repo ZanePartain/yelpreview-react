@@ -1,20 +1,16 @@
 import React, {Component} from "react";
-import {Input, InputGroup, InputGroupAddon, Table} from "reactstrap";
-
+import {Input, InputGroup, Table} from "reactstrap";
+import {connect} from "react-redux";
 
 
 class UserInfo extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            user: {}
-        }
+        this.state = {}
     }
 
-    // TODO: Add user updates when UserSelect updates
-
     render() {
-        //if (this.state.user) {
+        //if (this.props.user) {
             return (
                 <div>
                     User Info
@@ -24,7 +20,7 @@ class UserInfo extends Component {
                                 <td>Name</td>
                                 <td>
                                     <InputGroup>
-                                        <Input value={this.state.user.name}/>
+                                        <Input value={this.props.user.name}/>
                                     </InputGroup>
                                 </td>
                             </tr>
@@ -32,7 +28,7 @@ class UserInfo extends Component {
                                 <td>Stars</td>
                                 <td>
                                     <InputGroup>
-                                        <Input value={this.state.user.stars}/>
+                                        <Input value={this.props.user.stars}/>
                                     </InputGroup>
                                 </td>
                             </tr>
@@ -40,7 +36,7 @@ class UserInfo extends Component {
                                 <td>Fans</td>
                                 <td>
                                     <InputGroup>
-                                        <Input value={this.state.user.fans}/>
+                                        <Input value={this.props.user.fans}/>
                                     </InputGroup>
                                 </td>
                             </tr>
@@ -48,7 +44,7 @@ class UserInfo extends Component {
                                 <td>Yelping Since</td>
                                 <td>
                                     <InputGroup>
-                                        <Input value={this.state.user.yelping_since}/>
+                                        <Input value={this.props.user.yelping_since}/>
                                     </InputGroup>
                                 </td>
                             </tr>
@@ -61,7 +57,7 @@ class UserInfo extends Component {
                                                 <td>Funny</td>
                                                 <td>
                                                     <InputGroup>
-                                                        <Input value={this.state.user.funny}/>
+                                                        <Input value={this.props.user.funny}/>
                                                     </InputGroup>
                                                 </td>
                                             </tr>
@@ -69,7 +65,7 @@ class UserInfo extends Component {
                                                 <td>Cool</td>
                                                 <td>
                                                     <InputGroup>
-                                                        <Input value={this.state.user.cool}/>
+                                                        <Input value={this.props.user.cool}/>
                                                     </InputGroup>
                                                 </td>
                                             </tr>
@@ -77,7 +73,7 @@ class UserInfo extends Component {
                                                 <td>Useful</td>
                                                 <td>
                                                     <InputGroup>
-                                                        <Input value={this.state.user.useful}/>
+                                                        <Input value={this.props.user.useful}/>
                                                     </InputGroup>
                                                 </td>
                                             </tr>
@@ -89,7 +85,7 @@ class UserInfo extends Component {
                                 <td>Tip Count</td>
                                 <td>
                                     <InputGroup>
-                                        <Input value={this.state.user.tip_count}/>
+                                        <Input value={this.props.user.tip_count}/>
                                     </InputGroup>
                                 </td>
                             </tr>
@@ -97,7 +93,7 @@ class UserInfo extends Component {
                                 <td>Total Tip Likes</td>
                                 <td>
                                     <InputGroup>
-                                        <Input value={this.state.user.total_likes}/>
+                                        <Input value={this.props.user.total_likes}/>
                                     </InputGroup>
                                 </td>
                             </tr>
@@ -110,7 +106,7 @@ class UserInfo extends Component {
                                                 <td>Latitude</td>
                                                 <td>
                                                     <InputGroup>
-                                                        <Input value={this.state.user.latitude}/>
+                                                        <Input value={this.props.user.latitude}/>
                                                     </InputGroup>
                                                 </td>
                                             </tr>
@@ -118,7 +114,7 @@ class UserInfo extends Component {
                                                 <td>Longitude</td>
                                                 <td>
                                                     <InputGroup>
-                                                        <Input value={this.state.user.longitude}/>
+                                                        <Input value={this.props.user.longitude}/>
                                                     </InputGroup>
                                                 </td>
                                             </tr>
@@ -140,4 +136,10 @@ class UserInfo extends Component {
     }
 }
 
-export default UserInfo;
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user,
+    };
+};
+
+export default connect(mapStateToProps)(UserInfo);
