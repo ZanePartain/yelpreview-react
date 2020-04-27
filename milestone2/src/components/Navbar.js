@@ -27,6 +27,7 @@ class MyNav extends Component {
                     <NavbarBrand href="/" > Yelp Review </NavbarBrand>
                     
                     <NavbarToggler onClick={this.toggle.bind(this)} />
+                    
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem style={linkStyle}>
@@ -41,6 +42,7 @@ class MyNav extends Component {
                             </NavItem>
                         </Nav>
                     </Collapse>
+
                 </Navbar>
             </div>
         );
