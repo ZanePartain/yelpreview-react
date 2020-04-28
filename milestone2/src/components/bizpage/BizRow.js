@@ -44,11 +44,26 @@ class BizRow extends Component{
                <td  title="name" className="td-data">
                     {this.props.val["name"]}
                 </td>
-                <td  title="state"className="td-data" >
-                    {this.props.val["state"]}
+                <td title="address" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["address"]}
                 </td>
                 <td title="city" className="td-data"  style={{paddingRight: '50px'}}>
                     {this.props.val["city"]}
+                </td>
+                <td title="state" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["state"]}
+                </td>
+                <td title="distance" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["distance"]}
+                </td>
+                <td title="rating" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["rating"]}
+                </td>
+                <td title="tips" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["tips"]}
+                </td>
+                <td title="checkins" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["checkins"]}
                 </td>
 
                 {/** Modal view for business detail */}

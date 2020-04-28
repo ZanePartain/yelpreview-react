@@ -359,7 +359,7 @@ class Yelp extends Component{
                                     {/* {JSON.stringify(this.state.postalCodes)} */}
                                     {/* {JSON.stringify(this.state.category)} */}
 
-                                    <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
+                                    <Table isLoading={this.state.isLoading}/>
                                 </div>
                             </Container>
                         </Col>

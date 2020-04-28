@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BizRow from './BizRow';
+import { connect } from 'react-redux';
 
 
 function isEmpty(obj) {
@@ -14,14 +15,9 @@ class Table extends Component{
     constructor(props){
         super(props);
         this.state = {
-            color: "red",
-            data: []
         }
     }
 
-    componentDidMount(){
-        this.setState({ data: this.props.data })
-    }
 
     render(){
         return(
@@ -43,19 +39,34 @@ class Table extends Component{
                                 Business Name
                             </th>
                             <th>
-                                State
+                                Address
                             </th>
                             <th>
                                 City
+                            </th>
+                            <th>
+                                State
+                            </th>
+                            <th>
+                                Distance <br/> (miles)
+                            </th>
+                            <th>
+                                Rating
+                            </th>
+                            <th>
+                                Tips
+                            </th>
+                            <th>
+                                Check-ins
                             </th>
                         </tr>
                         
                         {/** loop over all biz objects */}
                         {this.props.isLoading 
                             ? '...Loading'
-                            : (this.props.data.length == 0) 
+                            : (this.props.biz.length == 0) 
                                 ? 'No Businesses Found'
-                                : this.props.data.map((val, key) => {
+                                : this.props.biz.map((val, key) => {
                             /** iterate over all keys in biz object */
                             // console.log(val);
                             return(
@@ -70,4 +81,11 @@ class Table extends Component{
 
 }
 
-export default Table;
+const mapStateToProps = (state) => {
+    return {
+        biz: state.biz.biz,
+    };
+};
+
+// We now have to connect our props to the component.
+export default connect(mapStateToProps)(Table);

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Yelp from './components/bizpage/Yelp';
-import UserPage from './components/user_page/UserPage';
+import UserPage from './components/UserPage';
 import MyNav from './components/Navbar';
 import {
     BrowserRouter as Router,
@@ -10,6 +10,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import UITable from './components/bizpage/UITable';
 
 class App extends Component {
     constructor(props) {
