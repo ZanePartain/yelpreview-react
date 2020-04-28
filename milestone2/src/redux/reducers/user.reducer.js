@@ -12,16 +12,18 @@ const getTips = (friends) => Promise.all(
         fetch(
             'http://localhost:3000/tip/latestByUser/' + friend.id,
             {method: 'GET'})
-            .then((resp) => resp.json())
+            .then((resp) => {
+                return resp.json();
+            }).catch((err) => console.log(err))
     })
-)
+).then((tips) => tips.filter((tip) => tip != null))
 
 const getFriends = (user) => fetch(
     'http://localhost:3000/friend/friendsOf/' + user.id,
     {method: 'GET'}
 ).then((resp) => {
     return resp.json();
-})
+}).catch((err) => console.log(err))
 
 const setUserOnly = (user) => {
     return {
@@ -38,6 +40,7 @@ const setFriendsOnly = (friends) => {
 };
 
 const setTipsOnly = (tips) => {
+    console.log(tips);
     return {
         type: 'SETTIPS',
         payload: tips

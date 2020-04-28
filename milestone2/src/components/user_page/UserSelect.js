@@ -24,7 +24,6 @@ class UserSelect extends Component {
         });
 
     updateSelectedUser = (e) => {
-        console.log(e.target);
         this.props.handleSetUser(this.state.matchingUsers.find(
             (elem) => {
                 return elem.id === e.target.value;
