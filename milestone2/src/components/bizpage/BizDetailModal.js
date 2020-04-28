@@ -46,21 +46,29 @@ class ModalExample extends Component {
                                 {this.props.details.city}
                             </Col>
                         </Row>
-                            <br />
-                        <Row>
-                            <Col>
-                                <Label style={{fontWeight: 'bold'}}> Categories: </Label>
-                            </Col>
-                            <Col>
-                                {JSON.stringify(this.props.categories)}
-                            </Col>
-                        </Row>
                         <Row>
                             <Col>
                                 <Label style={{fontWeight: 'bold'}}> Hours: </Label>
                             </Col>
                             <Col>
                                 {JSON.stringify(this.props.hours)}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Label style={{fontWeight: 'bold'}}> Categories: </Label>
+                                <Row>
+                                    <div style={{width: '100%', height: '100px', overflowY: 'scroll'}}>
+                                        <ul>
+                                            {this.props.categories.map((item, key) => {
+                                                return <li key={key}>{item}</li>
+                                            })}
+                                        
+                                        </ul>
+                                    </div>
+                                </Row>
+                            </Col>
+                            <Col>
                             </Col>
                         </Row>
                     </Container>

@@ -21,8 +21,8 @@ class BizRow extends Component{
         this.state = {
             isSelected: false,
             biz: {},
-            hours: {},
-            categories: {},
+            hours: [],
+            categories: [],
             modal: false,
         }
     }
@@ -40,9 +40,16 @@ class BizRow extends Component{
             })
             .then( myJSON => {
                 console.log('MY JSON', myJSON);
+
+                let c = []
+                for (let i = 0; i < myJSON["categories"].length; i++){
+                    c.push(myJSON["categories"][i]["type"]);
+                    console.log(myJSON["categories"][i]["type"]);
+                }
+
                 this.setState({
                     hours: myJSON["hours"],
-                    categories: myJSON["categories"]
+                    categories: c
                 })
             })
             .catch(err => {
