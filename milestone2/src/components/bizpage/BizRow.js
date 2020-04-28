@@ -41,14 +41,22 @@ class BizRow extends Component{
             .then( myJSON => {
                 console.log('MY JSON', myJSON);
 
+                // parse the JSON categories
                 let c = []
                 for (let i = 0; i < myJSON["categories"].length; i++){
                     c.push(myJSON["categories"][i]["type"]);
                     console.log(myJSON["categories"][i]["type"]);
                 }
+                
+                // parse the JSON hours
+                let h = {}
+                for (let i = 0; i < myJSON["hours"].length; i++){
+                    var day = myJSON["hours"][i];
+                    h[day["day_of_week"]] = [day["open"], day["close"]];
+                }
 
                 this.setState({
-                    hours: myJSON["hours"],
+                    hours: h,
                     categories: c
                 })
             })

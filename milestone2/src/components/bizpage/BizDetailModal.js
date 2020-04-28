@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Container, Label, Row, Col } from 'reactstrap';
 
+var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 class ModalExample extends Component {
     constructor(props){
         super(props);
@@ -14,6 +16,9 @@ class ModalExample extends Component {
     }
   
     render(){
+        var today = new Date();
+        var dayName = days[today.getDay()];
+        console.log(dayName);
         return (
         <div>
             <Modal isOpen={this.props.modal} toggle={this.toggle.bind(this)}>
@@ -51,7 +56,7 @@ class ModalExample extends Component {
                                 <Label style={{fontWeight: 'bold'}}> Hours: </Label>
                             </Col>
                             <Col>
-                                {JSON.stringify(this.props.hours)}
+                                <span>{dayName} - {this.props.hours[dayName]}</span>
                             </Col>
                         </Row>
                         <Row>
