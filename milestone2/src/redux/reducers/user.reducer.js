@@ -34,7 +34,7 @@ const setUserOnly = (user) => {
 
 const setFriendsOnly = (friends) => {
     return {
-        type: 'SETFRENDS',
+        type: 'SETFRIENDS',
         payload: friends
     };
 };
