@@ -25,9 +25,9 @@ class LatestTips extends Component {
                     {this.props.tips.map((tip, index) => {
                         return (
                             <tr>
-                                <td>{tip.user.name}</td>
-                                <td>{tip.business.name}</td>
-                                <td>{tip.business.city}</td>
+                                <td>{tip.user_name}</td>
+                                <td>{tip.business_name}</td>
+                                <td>{tip.business_city}</td>
                                 <td>{tip.text}</td>
                                 <td>{tip.date}</td>
                                 <td>{tip.likes}</td>

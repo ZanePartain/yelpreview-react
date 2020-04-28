@@ -7,16 +7,18 @@ export const setUser = (user) => {
     }
 };
 
-const getTips = (friends) => Promise.all(
-    friends.map((friend, index) => {
-        fetch(
+const getTips = (friends) => {
+    let promises = friends.map((friend, index) => {
+        return fetch(
             'http://localhost:3000/tip/latestByUser/' + friend.id,
-            {method: 'GET'})
-            .then((resp) => {
-                return resp.json();
-            }).catch((err) => console.log(err))
-    })
-).then((tips) => tips.filter((tip) => tip != null))
+            {method: 'GET'}
+        ).then((resp) => {
+            return resp.json();
+        }).catch((err) => console.log(err))
+    });
+    let all = Promise.all(promises);
+    return all.then(arr => arr.filter(tip => tip != null));
+}
 
 const getFriends = (user) => fetch(
     'http://localhost:3000/friend/friendsOf/' + user.id,
