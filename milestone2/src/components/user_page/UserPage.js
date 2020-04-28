@@ -13,10 +13,10 @@ class Users extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{backgroundColor: 'white'}}>
                 <Row>
                     <Col>
-                        <Row>
+                        <Row > 
                             <UserSelect/>
                             <UserInfo/>
                         </Row>

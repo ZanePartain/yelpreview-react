@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Col, Input, InputGroup, Label} from "reactstrap";
 import {connect} from "react-redux";
-//import {setUser} from "../../redux/reducers/user.reducer";
+import {setUser} from "../../redux/reducers/user.reducer";
 
 
 class UserSelect extends Component {
@@ -34,9 +34,9 @@ class UserSelect extends Component {
 
     render() {
         return (
-            <div>
-                <InputGroup>
-                    <Col>
+            <div >
+                <InputGroup >
+                    <Col >
                         <Label for='name'>Name</Label>
                         <Input placeholder='Name' name='name' onChange={this.updateUserList} />
                         <Input type='select' name='selectedUser' onChange={this.updateSelectedUser}>
@@ -63,7 +63,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //handleSetUser: (newUser) => dispatch(setUser(newUser)),
+        handleSetUser: (newUser) => dispatch(setUser(newUser)),
     };
 }
 

@@ -49,18 +49,18 @@ class ModalExample extends Component {
                             <br />
                         <Row>
                             <Col>
-                                <Label style={{fontWeight: 'bold'}}> Number of business in the same state: </Label>
+                                <Label style={{fontWeight: 'bold'}}> Categories: </Label>
                             </Col>
                             <Col>
-                                {this.props.biz_count.numSameState}
+                                {JSON.stringify(this.props.categories)}
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <Label style={{fontWeight: 'bold'}}> Number of business in the same city: </Label>
+                                <Label style={{fontWeight: 'bold'}}> Hours: </Label>
                             </Col>
                             <Col>
-                                {this.props.biz_count.numSameCity}
+                                {JSON.stringify(this.props.hours)}
                             </Col>
                         </Row>
                     </Container>
