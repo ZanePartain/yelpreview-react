@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 import bizReducer from './reducers/biz.reducer';
 import userReducer from './reducers/user.reducer';
 import {composeWithDevTools} from "redux-devtools-extension";

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Yelp from './components/bizpage/Yelp';
-import UserPage from './components/UserPage';
+import UserPage from './components/user_page/UserPage';
 import MyNav from './components/Navbar';
 import {
     BrowserRouter as Router,
@@ -21,15 +21,17 @@ class App extends Component {
 
     render() {
         return (
-          <Router>
-              <MyNav/>
-              <div className="App-header">
-                  <Switch>
-                      <Route exact path="/" component={Yelp}/>
-                      <Route exact path="/user" component={UserPage}/>
-                  </Switch>
-              </div>
-          </Router>
+
+            <Router>
+                <MyNav/>
+                <div className="App-header">
+                    <Switch>
+                        <Route exact path="/" component={Yelp}/>
+                        <Route exact path="/user" component={UserPage}/>
+                    </Switch>
+                </div>
+            </Router>
+
         );
     }
 }

@@ -29,7 +29,7 @@ class BizRow extends Component{
     // fetch the indivdual business data based on the business ID.
     handleBizClickFetch = (e) => {
         if(this.props.val["id"]){
-            const url = 'http://localhost:3000/business_detail/' + this.props.val["id"];
+            const url = 'http://localhost:3000/business/detail/' + this.props.val["id"];
     
             fetch(url, {
                 method: "GET",
