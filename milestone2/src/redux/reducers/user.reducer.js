@@ -42,17 +42,59 @@ const setFriendsOnly = (friends) => {
 };
 
 const setTipsOnly = (tips) => {
-    console.log(tips);
     return {
         type: 'SETTIPS',
         payload: tips
     };
 };
 
+export const setName = (name) => {
+    return (dispatch) => {
+        dispatch(setNameOnly(name));
+        fetch(
+            'http://localhost:3000/user/byName/' + name,
+            {method: 'GET'}
+        ).then((resp) => {
+            return resp.json();
+        }).then(userList => {
+            dispatch(setMatchingOnly(userList))
+        }).catch(err =>{
+            console.log(err);
+        });
+    }
+}
+
+const setNameOnly = (name) => {
+    return {
+        type: 'SETNAME',
+        payload: name
+    }
+}
+
+const setMatchingOnly = (matchingUsers) => {
+    return {
+        type: 'SETMATCHINGUSERS',
+        payload: matchingUsers
+    }
+}
+
+export const setUserMatchingID = (userID) => {
+    return {
+        type: 'SETUSER',
+        payload: this.props.matchingUsers.find(
+            (elem) => {
+                return elem.id === userID;
+            }
+        )
+    }
+}
+
 const initialAppState = {
     user: {},
     friends: [],
-    tips: []
+    tips: [],
+    name: '',
+    usersMatchingName: []
 };
 
 const userReducer = (state = initialAppState, action) => {
@@ -65,6 +107,12 @@ const userReducer = (state = initialAppState, action) => {
 
         case 'SETTIPS':
             return {...state, tips: action.payload};
+
+        case 'SETNAME':
+            return {...state, name: action.payload};
+
+        case 'SETMATCHINGUSERS':
+            return {...state, usersMatchingName: action.payload}
 
         default:
             return state;

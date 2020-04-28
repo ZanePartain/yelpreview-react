@@ -1,34 +1,22 @@
 import React, {Component} from "react";
 import {Col, Input, InputGroup, Label} from "reactstrap";
 import {connect} from "react-redux";
-import {setUser} from "../../redux/reducers/user.reducer";
+import {setName, setUser, setUserMatchingID} from "../../redux/reducers/user.reducer";
 
 
 class UserSelect extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            matchingUsers: []
-        }
     }
 
-    updateUserList = e => fetch(
-        'http://localhost:3000/user/byName/' + e.target.value,
-        {method: 'GET'}
-        ).then((resp) => {
-            return resp.json();
-        }).then(userList => {
-            this.setState({matchingUsers: userList})
-        }).catch(err =>{
-            console.log(err);
-        });
+    updateUserList = (e) => {
+        let name = e.target.value;
+        this.props.handleSetName(name);
+    }
 
     updateSelectedUser = (e) => {
-        this.props.handleSetUser(this.state.matchingUsers.find(
-            (elem) => {
-                return elem.id === e.target.value;
-            }
-        ));
+        let userID = e.target.value;
+        this.props.handleSetUserMatchingID(userID);
     }
 
     render() {
@@ -40,7 +28,7 @@ class UserSelect extends Component {
                         <Input placeholder='Name' name='name' onChange={this.updateUserList} />
                         <Input type='select' name='selectedUser' onChange={this.updateSelectedUser}>
                             {
-                                this.state.matchingUsers.map((user, index) => {
+                                this.props.matchingUsers.map((user, index) => {
                                     return (
                                         <option key={index} value={user.id} id={user.id}>{user.id}</option>
                                     )
@@ -57,12 +45,15 @@ class UserSelect extends Component {
 const mapStateToProps = (state) => {
     return {
         user: state.user.user,
+        matchingUsers: state.user.usersMatchingName
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         handleSetUser: (newUser) => dispatch(setUser(newUser)),
+        handleSetName: (newName) => dispatch(setName(newName)),
+        handleSetUserMatchingID: (userID) => dispatch(setUserMatchingID(userID))
     };
 }
 

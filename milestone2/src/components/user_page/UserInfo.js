@@ -1,12 +1,26 @@
 import React, {Component} from "react";
-import {Input, InputGroup, Table} from "reactstrap";
+import {Input, InputGroup, Table, Button} from "reactstrap";
 import {connect} from "react-redux";
+import {setName, setUserMatchingID} from "../../redux/reducers/user.reducer";
 
 
 class UserInfo extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            latitude: null,
+            longitude: null
+        }
+    }
+
+    updateLocation = () => {
+        fetch(
+            'http://localhost:3000/user/setLocation/' + this.props.user.id + '/' + this.state.latitude + '/' + this.state.longitude,
+            {method: 'PUT'}
+            ).catch(err => console.log(err))
+        let userID = this.props.user.name;
+        Promise.resolve(this.props.handleSetName(this.props.user.name))
+            .then(() => this.props.handleSetUserMatchingID(userID))
     }
 
     render() {
@@ -106,7 +120,7 @@ class UserInfo extends Component {
                                                 <td>Latitude</td>
                                                 <td>
                                                     <InputGroup>
-                                                        <Input value={this.props.user.latitude}/>
+                                                        <Input value={this.props.user.latitude} onChange={(e) => this.setState({latitude: e.target.value})}/>
                                                     </InputGroup>
                                                 </td>
                                             </tr>
@@ -114,7 +128,7 @@ class UserInfo extends Component {
                                                 <td>Longitude</td>
                                                 <td>
                                                     <InputGroup>
-                                                        <Input value={this.props.user.longitude}/>
+                                                        <Input value={this.props.user.longitude} onChange={(e) => this.setState({longitude: e.target.value})}/>
                                                     </InputGroup>
                                                 </td>
                                             </tr>
@@ -124,6 +138,7 @@ class UserInfo extends Component {
                             </tr>
                         </tbody>
                     </Table>
+                    <Button onClick={this.updateLocation}>Update Location</Button>
                 </div>
             );
         // } else {
@@ -142,4 +157,11 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(UserInfo);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleSetName: (newName) => dispatch(setName(newName)),
+        handleSetUserMatchingID: (userID) => dispatch(setUserMatchingID(userID))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
