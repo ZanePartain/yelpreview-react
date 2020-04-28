@@ -1,13 +1,28 @@
 import React, { Component } from 'react';
 import ModalExample from './BizDetailModal';
 
+function distance(lat1,lon1,lat2,lon2) {
+	var R = 3958.8; // m (change this constant to get miles)
+	var dLat = (lat2-lat1) * Math.PI / 180;
+	var dLon = (lon2-lon1) * Math.PI / 180;
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
+		Math.sin(dLon/2) * Math.sin(dLon/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var d = R * c;
+	if (d>1) return Math.round(d)+"mi";
+	else if (d<=1) return Math.round(d*1000)+"m";
+	return d;
+}
+
 class BizRow extends Component{
     constructor(props){
         super(props);
         this.state = {
             isSelected: false,
             biz: {},
-            biz_count: {},
+            hours: [],
+            categories: [],
             modal: false,
         }
     }
@@ -24,7 +39,18 @@ class BizRow extends Component{
                 return response.json();
             })
             .then( myJSON => {
-                this.setState({biz_count: myJSON})
+                console.log('MY JSON', myJSON);
+
+                let c = []
+                for (let i = 0; i < myJSON["categories"].length; i++){
+                    c.push(myJSON["categories"][i]["type"]);
+                    console.log(myJSON["categories"][i]["type"]);
+                }
+
+                this.setState({
+                    hours: myJSON["hours"],
+                    categories: c
+                })
             })
             .catch(err => {
                 console.log(err);
@@ -39,22 +65,39 @@ class BizRow extends Component{
     }
 
     render(){
+
+        console.log(distance(this.props.val["latitude"], this.props.val["longitude"],46.7298, 117.1817))
         return(
             <tr className="data-row" onClick={this.handleBizClickFetch.bind(this)}>
                <td  title="name" className="td-data">
                     {this.props.val["name"]}
                 </td>
-                <td  title="state"className="td-data" >
-                    {this.props.val["state"]}
+                <td title="address" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["address"]}
                 </td>
                 <td title="city" className="td-data"  style={{paddingRight: '50px'}}>
                     {this.props.val["city"]}
+                </td>
+                <td title="state" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["state"]}
+                </td>
+                <td title="distance" className="td-data"  style={{paddingRight: '50px'}}>
+                    {distance(this.props.val["latitude"], this.props.val["longitude"],46.7298, 117.1817)}
+                </td>
+                <td title="rating" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["stars"]}
+                </td>
+                <td title="tips" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["num_tips"]}
+                </td>
+                <td title="checkins" className="td-data"  style={{paddingRight: '50px'}}>
+                    {this.props.val["num_checkins"]}
                 </td>
 
                 {/** Modal view for business detail */}
                 {
                     this.state.modal 
-                        ?  <ModalExample modal={this.state.modal} setModal={this.setModal.bind(this)} details={this.props.val} biz_count={this.state.biz_count}/> 
+                        ?  <ModalExample modal={this.state.modal} setModal={this.setModal.bind(this)} details={this.props.val} categories={this.state.categories} hours={this.state.hours}/> 
                         : ''
                 }
             </tr>

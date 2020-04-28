@@ -15,7 +15,7 @@ export const setBiz = (biz) =>{ // fired when we set the biz state variable
 
   
 // Initial Biz State
-const initialAppState = {
+const initialBizState = {
     biz: [],  // object to be built by adding a new biz
 };
 
@@ -24,7 +24,7 @@ const initialAppState = {
  * Biz State Reducer :: listens for any Biz Action action to be dispatched, then mutates
  * the Biz state depending on the action. 
  */ 
-const bizReducer = (state=initialAppState, action) => {
+const bizReducer = (state=initialBizState, action) => {
     switch (action.type) 
     {
         case 'SETBIZ':

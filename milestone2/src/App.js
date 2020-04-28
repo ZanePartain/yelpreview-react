@@ -10,6 +10,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import UITable from './components/bizpage/UITable';
 
 class App extends Component {
     constructor(props) {
@@ -21,15 +22,15 @@ class App extends Component {
     render() {
         return (
 
-                <Router>
-                    <MyNav/>
-                    <div className="App-header">
-                        <Switch>
-                            <Route exact path="/" component={Yelp}/>
-                            <Route exact path="/user" component={UserPage}/>
-                        </Switch>
-                    </div>
-                </Router>
+            <Router>
+                <MyNav/>
+                <div className="App-header">
+                    <Switch>
+                        <Route exact path="/" component={Yelp}/>
+                        <Route exact path="/user" component={UserPage}/>
+                    </Switch>
+                </div>
+            </Router>
 
         );
     }

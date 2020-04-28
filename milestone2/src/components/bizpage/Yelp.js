@@ -359,7 +359,7 @@ class Yelp extends Component{
                                     {/* {JSON.stringify(this.state.postalCodes)} */}
                                     {/* {JSON.stringify(this.state.category)} */}
 
-                                    <Table data={this.state.bizQuery} isLoading={this.state.isLoading}/>
+                                    <Table isLoading={this.state.isLoading}/>
                                 </div>
                             </Container>
                         </Col>
@@ -400,6 +400,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         handleSetBiz: (newBiz) => dispatch(setBiz(newBiz)),
     };
+    // this.props.handleSetBiz(newBiz[])
 }
 
 // We now have to connect our props to the component.
